@@ -136,7 +136,18 @@
 
         /* --- Hero Section --- */
         .hero { position: relative; height: 85vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('https://picsum.photos/seed/matchalatteart2/1600/1200'); background-size: cover; background-position: center; z-index: -1; filter: brightness(0.9); transform: scale(1.05); animation: breathe 20s infinite alternate; }
+        .hero-bg { 
+            position: absolute; 
+            top: 0; left: 0; width: 100%; height: 100%; 
+            /* Updated Hero Image */
+            background-image: url('https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Matcho.jpg'); 
+            background-size: cover; 
+            background-position: center; 
+            z-index: -1; 
+            filter: brightness(0.9); 
+            transform: scale(1.05); 
+            animation: breathe 20s infinite alternate; 
+        }
         @keyframes breathe { from { transform: scale(1.05); } to { transform: scale(1.1); } }
         .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(249,249,247,0.1), rgba(249,249,247,0.7)); }
         .hero-content { position: relative; background: rgba(255, 255, 255, 0.85); padding: 3rem 2rem; max-width: 500px; text-align: center; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.9); box-shadow: 0 10px 40px rgba(0,0,0,0.05); animation: fadeInUp 1s ease-out forwards; }
@@ -188,7 +199,16 @@
 
         /* --- Other Sections --- */
         #story-section { display: flex; flex-wrap: wrap; background-color: var(--color-brand-light); }
-        .story-img { flex: 1 1 400px; min-height: 500px; background-image: url('https://picsum.photos/seed/matchapour2/800/1000'); background-size: cover; background-position: center; }
+        
+        /* UPDATED STORY IMAGE CSS */
+        .story-img { 
+            flex: 1 1 400px; 
+            min-height: 500px; 
+            background-image: url('https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/MORY%20ICON-green.png'); 
+            background-size: cover; 
+            background-position: center; 
+        }
+        
         .story-text { flex: 1 1 400px; padding: 4rem 3rem; display: flex; flex-direction: column; justify-content: center; }
         .story-text h2 { color: var(--color-brand-dark); }
 
@@ -234,7 +254,8 @@
             </button>
 
             <a href="#top" class="brand-logo">
-                <img src="https://via.placeholder.com/150x50/png?text=MORY+LOGO" alt="MORY Logo">
+                <!-- Updated Logo Image -->
+                <img src="https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/MORY%20LOGO-green.png" alt="MORY Logo">
             </a>
 
             <nav class="nav-menu" id="nav-menu">
@@ -290,11 +311,12 @@
         </div>
 
         <div class="grid-drinks">
-            <!-- Drink 1 -->
+            <!-- Drink 1: Strawberry Matcha -->
             <div class="drink-card reveal" onclick="window.openModal('strawberry')">
                 <div class="drink-img">
                     <span class="drink-tag">Popular</span>
-                    <img src="https://picsum.photos/seed/strawberrymatcha/600/800" alt="Strawberry Matcha">
+                    <!-- Updated Image URL -->
+                    <img src="https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Strawberry%20Matcha.jpg" alt="Strawberry Matcha">
                 </div>
                 <div class="drink-info">
                     <h3>Strawberry Matcha</h3>
@@ -304,10 +326,11 @@
                 </div>
             </div>
 
-            <!-- Drink 2 -->
+            <!-- Drink 2: Blueberry Matcha -->
             <div class="drink-card reveal" onclick="window.openModal('blueberry')">
                 <div class="drink-img">
-                    <img src="https://picsum.photos/seed/blueberrymatcha/600/800" alt="Blueberry Matcha">
+                    <!-- Updated Image URL -->
+                    <img src="https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Blueberry%20Matcha.jpg" alt="Blueberry Matcha">
                 </div>
                 <div class="drink-info">
                     <h3>Blueberry Matcha</h3>
@@ -317,11 +340,12 @@
                 </div>
             </div>
 
-            <!-- Drink 3 -->
+            <!-- Drink 3: Matcha Latte -->
             <div class="drink-card reveal" onclick="window.openModal('latte')">
                 <div class="drink-img">
                     <span class="drink-tag">Classic</span>
-                    <img src="https://picsum.photos/seed/matchalatte/600/800" alt="Matcha Latte">
+                    <!-- Updated Image URL -->
+                    <img src="https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Matcha%20Latte.jpg" alt="Matcha Latte">
                 </div>
                 <div class="drink-info">
                     <h3>Matcha Latte</h3>
@@ -331,11 +355,12 @@
                 </div>
             </div>
 
-            <!-- Drink 4 -->
+            <!-- Drink 4: Mango Matcha -->
             <div class="drink-card reveal" onclick="window.openModal('mango')">
                 <div class="drink-img">
                     <span class="drink-tag">Seasonal</span>
-                    <img src="https://picsum.photos/seed/mangomatcha/600/800" alt="Mango Matcha">
+                    <!-- Updated Image URL -->
+                    <img src="https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Mango%20Matcha.jpg" alt="Mango Matcha">
                 </div>
                 <div class="drink-info">
                     <h3>Mango Matcha</h3>
@@ -349,6 +374,7 @@
 
     <!-- About Section -->
     <section id="story-section" class="reveal">
+        <!-- Story Image Changed in CSS -->
         <div class="story-img"></div>
         <div class="story-text">
             <span class="uppercase" style="color: var(--color-brand-main);">Our Philosophy</span>
@@ -475,28 +501,32 @@
             'strawberry': {
                 title: 'Strawberry Matcha',
                 price: 'RM12',
-                img: 'https://picsum.photos/seed/strawberrymatcha/800/800',
+                // Updated Image URL
+                img: 'https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Strawberry%20Matcha.jpg',
                 tag: 'Popular',
                 desc: 'Fresh strawberries blended with premium ceremonial matcha. A perfect balance of sweet berry notes and earthy green tea, creating a refreshing and energizing drink perfect for warm days.'
             },
             'blueberry': {
                 title: 'Blueberry Matcha',
                 price: 'RM14',
-                img: 'https://picsum.photos/seed/blueberrymatcha/800/800',
+                // Updated Image URL
+                img: 'https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Blueberry%20Matcha.jpg',
                 tag: 'Rich',
                 desc: 'A tart and sweet fusion of wild blueberries and earthy matcha. Our blueberries are slow-cooked to release their natural sugars, then layered with our signature matcha concentrate.'
             },
             'latte': {
                 title: 'Matcha Latte',
                 price: 'RM10',
-                img: 'https://picsum.photos/seed/matchalatte/800/800',
+                // Updated Image URL
+                img: 'https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Matcha%20Latte.jpg',
                 tag: 'Classic',
                 desc: 'Smooth and creamy matcha whisked with your choice of milk. We use organic oat milk as our house standard, but you can swap it for soy or almond for a velvety texture.'
             },
             'mango': {
                 title: 'Mango Matcha',
                 price: 'RM14',
-                img: 'https://picsum.photos/seed/mangomatcha/800/800',
+                // Updated Image URL
+                img: 'https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Mango%20Matcha.jpg',
                 tag: 'Seasonal',
                 desc: 'Tropical mango puree layered over our signature matcha blend. Made with Alphonso mangoes for richest flavor, this drink brings a tropical twist to your daily ritual.'
             }
@@ -511,7 +541,7 @@
         const inpEmail = document.getElementById("cust-email");
         window.currentProductKey = '';
 
-        // --- 1. MODAL FUNCTIONS ---
+        // --- 1. MODAL FUNCTIONS (Window Scope) ---
         window.openModal = function(key) {
             const product = window.products[key];
             if (!product) return;
@@ -553,49 +583,57 @@
 
         // --- 2. WHATSAPP FUNCTION (BULLETPROOF HIDDEN LINK METHOD) ---
         window.submitWhatsAppOrder = function() {
-            const name = inpName.value.trim();
-            const phone = inpPhone.value.trim();
-            const email = inpEmail.value.trim();
+            try {
+                // Get Values
+                const name = inpName.value.trim();
+                const phone = inpPhone.value.trim();
+                const email = inpEmail.value.trim();
 
-            // Validation
-            if (!name || !phone) {
-                window.showToast("Please fill in Name and Phone.");
-                return;
+                // Validate
+                if (!name || !phone) {
+                    window.showToast("Please fill in Name and Phone.");
+                    return;
+                }
+
+                const product = window.products[window.currentProductKey];
+                
+                // Construct Message
+                // Using %0A (URL encoded newline) for WhatsApp
+                let message = `New Order From MORY Website%0A%0A`;
+                message += `Order Details:%0A`;
+                message += `Item: ${product.title}%0A`;
+                message += `Price: ${product.price}%0A%0A`;
+                message += `Customer Details:%0A`;
+                message += `Name: ${name}%0A`;
+                message += `Phone: ${phone}%0A`;
+                if (email) { 
+                    message += `Email: ${email}%0A`; 
+                }
+                message += `Thank you!`;
+
+                // Create Link
+                // encodeURIComponent handles all spaces and special characters safely
+                const url = `https://wa.me/${WA_NUMBER}?text=${message}`;
+                
+                // --- THE FIX: Hidden Link Trigger ---
+                // We set the href of a real anchor tag and click it.
+                // This bypasses popup blockers better than window.open()
+                const waLink = document.getElementById('wa-link');
+                waLink.href = url;
+                
+                // Trigger click
+                waLink.click();
+                
+                // Close modal after attempt
+                window.closeModal();
+
+            } catch (error) {
+                console.error("WhatsApp Error:", error);
+                // Silent fail, do not show alert
             }
-
-            const product = window.products[window.currentProductKey];
-            
-            // Construct Message
-            // Using %0A (URL encoded newline) for WhatsApp
-            let message = `New Order From MORY Website%0A%0A`;
-            message += `Order Details:%0A`;
-            message += `Item: ${product.title}%0A`;
-            message += `Price: ${product.price}%0A%0A`;
-            message += `Customer Details:%0A`;
-            message += `Name: ${name}%0A`;
-            message += `Phone: ${phone}%0A`;
-            if (email) { 
-                message += `Email: ${email}%0A`; 
-            }
-            message += `Thank you!`;
-
-            // Create Link
-            const url = `https://wa.me/${WA_NUMBER}?text=${message}`;
-            
-            // --- THE FIX: Hidden Link Trigger ---
-            // We set the href of a real anchor tag and click it.
-            // This bypasses popup blockers better than window.open()
-            const waLink = document.getElementById('wa-link');
-            waLink.href = url;
-            
-            // Trigger the click
-            waLink.click();
-            
-            // Close modal
-            window.closeModal();
         };
 
-        // --- 3. TOAST (Global) ---
+        // --- 3. TOAST (Window Scope) ---
         window.showToast = function(message) {
             const toast = document.getElementById("toast");
             toast.textContent = message;
