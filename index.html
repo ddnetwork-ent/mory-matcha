@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MORY (Client Demo)</title>
+    <title>MORY [Client Demo]</title>
     <style>
         /* --- Design Tokens --- */
         :root {
@@ -98,14 +98,6 @@
 
         .btn-full { width: 100%; text-align: center; }
 
-        /* Scroll Reveal Animation */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease-out;
-        }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-
         /* --- Header / Navigation --- */
         header {
             position: fixed;
@@ -119,8 +111,58 @@
         header.scrolled { box-shadow: 0 4px 12px rgba(0,0,0,0.05); padding-top: 5px; }
         .nav-container { max-width: var(--container-width); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 24px; height: var(--header-height); transition: height 0.3s ease; }
         header.scrolled .nav-container { height: 70px; }
-        .brand-logo { display: flex; align-items: center; cursor: pointer; z-index: 1001; }
-        .brand-logo img { height: 40px; width: auto; }
+        
+        .brand-logo { 
+            display: flex; 
+            align-items: center; 
+            cursor: pointer; 
+            z-index: 1001; 
+            margin-right: auto; /* Pushes logo away from left toggle on desktop */
+        }
+
+        /* --- RESPONSIVE LOGO STYLES --- */
+        .brand-logo img {
+            /* Base size: Dynamic relative to header height */
+            height: 60%; 
+            
+            /* Safety caps to prevent distortion */
+            max-height: 45px;
+            min-height: 30px;
+            
+            /* Aspect ratio handling */
+            width: auto; 
+            
+            /* Sharpness */
+            object-fit: contain;
+            
+            /* Transitions */
+            transition: all 0.3s ease;
+        }
+
+        /* Desktop Specific Logo Styles */
+        @media (min-width: 769px) {
+            .brand-logo img {
+                max-width: 150px; /* Limit width on large screens */
+            }
+            .menu-toggle {
+                margin-right: 20px; /* Spacing between toggle and logo */
+            }
+        }
+
+        /* Mobile Specific Logo Styles */
+        @media (max-width: 768px) {
+            .brand-logo {
+                margin-left: 10px; /* Add a little space from left edge */
+            }
+            .brand-logo img {
+                max-width: 110px; /* Smaller width on mobile to fit next to burger menu */
+                height: 50%; /* Slightly smaller percentage for mobile header */
+            }
+            .menu-toggle {
+                margin-right: 10px; /* Add breathing room between logo and hamburger */
+            }
+        }
+        
         .nav-menu { display: none; }
         .nav-icons { display: flex; gap: 1.5rem; align-items: center; }
         .icon-btn { background: none; border: none; cursor: pointer; padding: 0; transition: transform 0.2s; }
@@ -139,7 +181,6 @@
         .hero-bg { 
             position: absolute; 
             top: 0; left: 0; width: 100%; height: 100%; 
-            /* Updated Hero Image */
             background-image: url('https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Matcho.jpg'); 
             background-size: cover; 
             background-position: center; 
@@ -249,10 +290,12 @@
     <!-- Header -->
     <header id="main-header">
         <div class="nav-container">
+            <!-- Mobile Menu Toggle -->
             <button class="menu-toggle" aria-label="Toggle Menu">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
             </button>
 
+            <!-- Responsive Logo -->
             <a href="#top" class="brand-logo">
                 <!-- Updated Logo Image -->
                 <img src="https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/MORY%20LOGO-green.png" alt="MORY Logo">
@@ -291,10 +334,14 @@
     <div class="marquee-bar">
         <div class="marquee-content">
             <span>Pure & Versatile</span>
-            <span>Order Now!</span>
-            <span>A lot of Matcha Seasonal</span>
-            <span>Order Via Website</span>
-            <span>Own brand</span>
+            <span>House-made Oat Milk</span>
+            <span>Rooted in Mindful Living</span>
+            <span>Fresh Fruit Blends</span>
+            <span>Order Online</span>
+            <span>Pure & Versatile</span>
+            <span>House-made Oat Milk</span>
+            <span>Rooted in Mindful Living</span>
+            <span>Fresh Fruit Blends</span>
         </div>
     </div>
 
@@ -613,14 +660,13 @@
                 
                 // --- THE FIX: Hidden Link Trigger ---
                 // We set the href of a real anchor tag and click it.
-                // This bypasses popup blockers better than window.open()
                 const waLink = document.getElementById('wa-link');
                 waLink.href = url;
                 
                 // Trigger click
                 waLink.click();
                 
-                // Close modal after attempt
+                // Close modal
                 window.closeModal();
 
             } catch (error) {
