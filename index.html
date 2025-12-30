@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MORY [Client Demo]</title>
+    <title>MORY [Client Demo - Movie Poster Style]</title>
     <style>
         /* --- Design Tokens --- */
         :root {
@@ -236,45 +236,43 @@
         /* --- Menu / Products Section --- */
         #menu-section { padding: var(--spacing-section); max-width: var(--container-width); margin: 0 auto; }
         .section-header { text-align: center; margin-bottom: 2rem; }
+        
+        /* GRID LAYOUT */
         .grid-drinks { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); 
             gap: 2.5rem; 
-            justify-items: center; /* Centers items in the grid tracks */
+            justify-items: center; 
         }
         
+        /* CARD STYLES (Base) */
         .drink-card { 
             background: var(--color-white); 
             border-radius: 12px;
-            padding: 15px; /* Added padding for mobile */
+            padding: 1rem;
             border: 1px solid rgba(0,0,0,0.03);
             cursor: pointer; 
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
             position: relative; 
             box-shadow: 0 2px 5px rgba(0,0,0,0.02);
-            /* FIX: Prevents card/image from stretching when search results are few */
-            max-width: 300px; 
             width: 100%;
-            margin: 0 auto;
-        }
-        
-        /* --- UPDATED RESPONSIVE DRINK CARD STYLES --- */
-        
-        /* DESKTOP (Default) */
-        .drink-card {
+            /* Max width fixed to prevent stretching in search */
+            max-width: 300px; 
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
         }
+
         .drink-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.08); }
 
+        /* IMAGE (Movie Poster Ratio) */
         .drink-img { 
             width: 100%; 
-            aspect-ratio: 3/4; 
+            aspect-ratio: 2/3; /* Movie Poster Style */
             overflow: hidden; 
             background-color: #eee; 
-            margin-bottom: 1.5rem; 
+            margin-bottom: 1rem; 
             border-radius: 8px; 
             position: relative;
         }
@@ -283,54 +281,52 @@
         
         .drink-tag { position: absolute; top: 15px; left: 15px; background: var(--color-white); padding: 6px 12px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; border-radius: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 2; }
         
-        .drink-info { text-align: center; }
+        .drink-info { text-align: center; width: 100%; }
         .drink-info h3 { font-size: 1.1rem; margin-bottom: 0.5rem; font-weight: 500; }
         .drink-info .price { font-family: var(--font-sans); color: var(--color-brand-main); font-weight: 600; font-size: 1rem; margin-bottom: 0.5rem; }
         .drink-desc-preview { font-size: 0.85rem; margin-bottom: 1rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         
+        /* CARD ACTION BUTTON */
         .tap-hint { 
-            font-size: 0.65rem; 
+            font-size: 0.75rem; 
             color: var(--color-white); 
             background-color: var(--color-brand-main);
-            padding: 6px 12px; 
-            border-radius: 4px; 
+            padding: 10px 20px; 
+            border-radius: 50px; /* Pill shape */
             text-transform: uppercase; 
             letter-spacing: 0.05em; 
             font-weight: 600; 
-            opacity: 0; 
-            transition: opacity 0.3s; 
+            opacity: 0.8; 
+            transition: all 0.3s; 
             display: inline-block; 
+            box-shadow: 0 4px 6px rgba(93, 140, 113, 0.2);
         }
-        .drink-card:hover .tap-hint { opacity: 1; }
-        @media (hover: none) { .tap-hint { opacity: 0; } } 
+        .drink-card:hover .tap-hint { opacity: 1; box-shadow: 0 6px 12px rgba(93, 140, 113, 0.4); }
 
-        /* MOBILE (Horizontal Layout) */
+        /* --- MOBILE SPECIFIC OVERRIDES --- */
         @media (max-width: 768px) {
-            .drink-card {
-                display: flex;
-                flex-direction: row; /* Image Left, Text Right */
-                align-items: center;
-                padding: 12px;
-                text-align: left;
-                height: auto; /* Allow height to adjust */
-                max-width: 100%; /* Full width on mobile */
-                margin: 0;
+            /* 2 Columns like movie posters */
+            .grid-drinks {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
             }
-            
-            .drink-card:hover { transform: none; }
 
-            .drink-img {
-                width: 90px; /* Fixed compact width */
-                height: 90px;
-                min-width: 90px; 
-                aspect-ratio: 1;
-                margin-bottom: 0;
-                margin-right: 15px;
+            .drink-card {
+                padding: 0.5rem; /* Less padding to fit 2 cols */
+                max-width: 100%;
                 border-radius: 8px;
             }
 
+            .drink-card:hover { transform: none; } /* Remove lift on mobile */
+
+            .drink-img {
+                margin-bottom: 0.5rem;
+                border-radius: 6px;
+            }
+
+            /* Force image to show top (Cup lid) */
             .drink-img img {
-                object-position: top center; 
+                object-position: top center;
             }
 
             .drink-tag {
@@ -341,27 +337,22 @@
             }
 
             .drink-info {
-                flex: 1; 
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                text-align: left;
+                text-align: center;
             }
 
-            .drink-info h3 { font-size: 1rem; margin-bottom: 0.2rem; }
+            .drink-info h3 { font-size: 0.9rem; margin-bottom: 0.2rem; line-height: 1.2; }
             .drink-info .price { font-size: 0.9rem; margin-bottom: 0.4rem; }
-            .drink-desc-preview { font-size: 0.75rem; margin-bottom: 0.8rem; -webkit-line-clamp: 1; }
+            .drink-desc-preview { display: none; /* Hide description on mobile to save space */ }
             
+            /* Mobile Button - Full width style attached to bottom */
             .tap-hint { 
                 opacity: 1; 
-                display: inline-block;
+                width: 90%;
+                display: block;
                 font-size: 0.7rem;
-                background: var(--color-brand-main);
-                color: white;
-                padding: 6px 12px;
-                border-radius: 20px;
-                align-self: flex-start;
-                box-shadow: 0 2px 4px rgba(93, 140, 113, 0.3);
+                padding: 8px 0;
+                border-radius: 6px;
+                margin-top: 5px;
             }
         }
 
@@ -496,10 +487,11 @@
     <div class="marquee-bar">
         <div class="marquee-content">
             <span>Stay connect on IG @moryofficial._</span>
-            <span>Choose.</span>
-            <span>Fill.</span>
-            <span>Enjoy.</span>
-            <span>Mory Matcha🍵.</span>
+            <span>Just easy — choose your fav drink, fill in details, enjoy 🍵</span>
+            <span>Choose. Fill. Enjoy. Mory Matcha.</span>
+            <span>Your fav matcha, just easy.</span>
+            <span>Smooth matcha, simple steps.</span>
+            <span>Order easy. Sip happy.</span>
             <span>Stay connect on IG @moryofficial._</span>
         </div>
     </div>
@@ -528,7 +520,7 @@
                     <h3>Strawberry Matcha</h3>
                     <div class="price">RM12</div>
                     <p class="drink-desc-preview">Fresh strawberries blended with premium ceremonial matcha.</p>
-                    <div class="tap-hint">Tap to Order</div>
+                    <div class="tap-hint">Add to Cart</div>
                 </div>
             </div>
 
@@ -541,7 +533,7 @@
                     <h3>Blueberry Matcha</h3>
                     <div class="price">RM14</div>
                     <p class="drink-desc-preview">A tart and sweet fusion of wild blueberries and earthy matcha.</p>
-                    <div class="tap-hint">Tap to Order</div>
+                    <div class="tap-hint">Add to Cart</div>
                 </div>
             </div>
 
@@ -555,7 +547,7 @@
                     <h3>Matcha Latte</h3>
                     <div class="price">RM10</div>
                     <p class="drink-desc-preview">Smooth and creamy matcha whisked with your choice of milk.</p>
-                    <div class="tap-hint">Tap to Order</div>
+                    <div class="tap-hint">Add to Cart</div>
                 </div>
             </div>
 
@@ -569,7 +561,7 @@
                     <h3>Mango Matcha</h3>
                     <div class="price">RM14</div>
                     <p class="drink-desc-preview">Tropical mango puree layered over our signature matcha blend.</p>
-                    <div class="tap-hint">Tap to Order</div>
+                    <div class="tap-hint">Add to Cart</div>
                 </div>
             </div>
         </div>
