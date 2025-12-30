@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MORY [Client Demo]</title>
+    <title>MORY [Client Demo - Updated]</title>
     <style>
         /* --- Design Tokens --- */
         :root {
@@ -97,6 +97,9 @@
         }
 
         .btn-full { width: 100%; text-align: center; }
+        .btn-sm { padding: 8px 16px; font-size: 0.7rem; }
+        .btn-danger { background-color: #ff6b6b; color: white; border: none; }
+        .btn-danger:hover { background-color: #e05555; box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3); }
 
         /* --- Header / Navigation --- */
         header {
@@ -117,56 +120,55 @@
             align-items: center; 
             cursor: pointer; 
             z-index: 1001; 
-            margin-right: auto; /* Pushes logo away from left toggle on desktop */
+            margin-right: auto;
         }
 
         /* --- RESPONSIVE LOGO STYLES --- */
         .brand-logo img {
-            /* Base size: Dynamic relative to header height */
             height: 60%; 
-            
-            /* Safety caps to prevent distortion */
             max-height: 45px;
             min-height: 30px;
-            
-            /* Aspect ratio handling */
             width: auto; 
-            
-            /* Sharpness */
             object-fit: contain;
-            
-            /* Transitions */
             transition: all 0.3s ease;
         }
 
-        /* Desktop Specific Logo Styles */
         @media (min-width: 769px) {
-            .brand-logo img {
-                max-width: 150px; /* Limit width on large screens */
-            }
-            .menu-toggle {
-                margin-right: 20px; /* Spacing between toggle and logo */
-            }
+            .brand-logo img { max-width: 150px; }
+            .menu-toggle { margin-right: 20px; }
         }
 
-        /* Mobile Specific Logo Styles */
         @media (max-width: 768px) {
-            .brand-logo {
-                margin-left: 10px; /* Add a little space from left edge */
-            }
-            .brand-logo img {
-                max-width: 110px; /* Smaller width on mobile to fit next to burger menu */
-                height: 50%; /* Slightly smaller percentage for mobile header */
-            }
-            .menu-toggle {
-                margin-right: 10px; /* Add breathing room between logo and hamburger */
-            }
+            .brand-logo { margin-left: 10px; }
+            .brand-logo img { max-width: 110px; height: 50%; }
+            .menu-toggle { margin-right: 10px; }
         }
         
         .nav-menu { display: none; }
         .nav-icons { display: flex; gap: 1.5rem; align-items: center; }
-        .icon-btn { background: none; border: none; cursor: pointer; padding: 0; transition: transform 0.2s; }
+        .icon-btn { background: none; border: none; cursor: pointer; padding: 0; position: relative; transition: transform 0.2s; }
         .icon-btn:hover { transform: scale(1.1); color: var(--color-brand-main); }
+        
+        /* Cart Badge */
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -8px;
+            background-color: var(--color-brand-main);
+            color: white;
+            font-size: 0.6rem;
+            font-weight: bold;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .cart-badge.visible { opacity: 1; }
+
         .menu-toggle { display: block; background: none; border: none; cursor: pointer; z-index: 1001; }
         .nav-menu a.active { color: var(--color-brand-main); font-weight: 600; }
 
@@ -200,14 +202,58 @@
         .marquee-content span { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.2em; margin-right: 3rem; font-weight: 600; }
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
+        /* --- Search Bar --- */
+        .search-container {
+            max-width: 500px;
+            margin: 0 auto 3rem auto;
+            position: relative;
+        }
+        .search-input {
+            width: 100%;
+            padding: 12px 20px 12px 45px;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.3s;
+            background: white;
+        }
+        .search-input:focus {
+            border-color: var(--color-brand-main);
+            box-shadow: 0 0 0 3px rgba(93, 140, 113, 0.1);
+        }
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            stroke: #aaa;
+            pointer-events: none;
+        }
+
         /* --- Menu / Products Section --- */
         #menu-section { padding: var(--spacing-section); max-width: var(--container-width); margin: 0 auto; }
-        .section-header { text-align: center; margin-bottom: 4rem; }
+        .section-header { text-align: center; margin-bottom: 2rem; }
         .grid-drinks { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2.5rem; }
+        
         .drink-card { background: transparent; cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; }
         .drink-card:hover { transform: translateY(-10px); }
+        
+        /* --- FIX FOR MOBILE IMAGES --- */
         .drink-img { position: relative; width: 100%; aspect-ratio: 3/4; overflow: hidden; background-color: #eee; margin-bottom: 1.5rem; border-radius: 8px; }
         .drink-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        
+        @media (max-width: 768px) {
+            /* Force taller images on mobile to see more of the drink */
+            .drink-img {
+                aspect-ratio: 4/5; /* Taller ratio */
+                min-height: 320px; /* Ensure sufficient height */
+            }
+        }
+
         .drink-card:hover .drink-img img { transform: scale(1.08); }
         .drink-tag { position: absolute; top: 15px; left: 15px; background: var(--color-white); padding: 6px 12px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; border-radius: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .drink-info { text-align: center; }
@@ -229,19 +275,42 @@
         .close-modal { position: absolute; top: 20px; right: 20px; background: transparent; border: none; font-size: 2rem; color: #888; cursor: pointer; z-index: 10; width: 40px; height: 40px; line-height: 40px; text-align: center; border-radius: 50%; transition: background 0.3s, transform 0.3s; }
         .close-modal:hover { background: #f0f0f0; color: #000; transform: rotate(90deg); }
 
-        /* --- Order Form Styles --- */
-        .order-form-container { margin-top: 2rem; border-top: 1px solid #eee; padding-top: 1.5rem; display: none; }
-        .form-group { margin-bottom: 1.2rem; text-align: left; }
-        .form-label { display: block; font-size: 0.75rem; text-transform: uppercase; color: var(--color-text-light); margin-bottom: 0.5rem; font-weight: 600; }
-        .form-input { width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 6px; font-family: var(--font-sans); font-size: 0.95rem; outline: none; transition: border-color 0.3s, box-shadow 0.3s; }
-        .form-input:focus { border-color: var(--color-brand-main); box-shadow: 0 0 0 3px rgba(93, 140, 113, 0.1); }
-        .btn-cancel { background: transparent; color: #888; border: 1px solid #ddd; margin-top: 10px; font-size: 0.75rem; padding: 12px; }
-        .btn-cancel:hover { border-color: #999; color: #333; }
+        @media (max-width: 768px) {
+            .modal-content { flex-direction: column; max-height: 90vh; overflow-y: auto; border-radius: 0; }
+            .modal-img-container { width: 100%; height: 250px; min-height: 250px; }
+            .modal-body { width: 100%; padding: 2rem; }
+            .close-modal { background: #fff; top: 10px; right: 10px; width: 32px; height: 32px; line-height: 32px; font-size: 1.5rem; }
+        }
+
+        /* --- Cart Modal Specific Styles --- */
+        .cart-layout { display: flex; height: 600px; max-height: 80vh; }
+        .cart-items-col { flex: 2; padding: 2rem; overflow-y: auto; border-right: 1px solid #eee; }
+        .cart-summary-col { flex: 1; padding: 2rem; background: #fafafa; display: flex; flex-direction: column; }
+        .cart-item { display: flex; gap: 1rem; margin-bottom: 1.5rem; align-items: center; padding-bottom: 1rem; border-bottom: 1px solid #eee; animation: slideInRight 0.3s ease; }
+        @keyframes slideInRight { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
+        .cart-item-img { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; background: #eee; }
+        .cart-item-details { flex: 1; }
+        .cart-item-title { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.2rem; }
+        .cart-item-price { color: var(--color-brand-main); font-size: 0.9rem; }
+        .cart-total-row { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 1.5rem; border-top: 2px solid #ddd; }
+        .cart-total-amount { font-size: 1.5rem; font-weight: bold; color: var(--color-brand-dark); }
+        .empty-cart-msg { text-align: center; color: #999; margin-top: 3rem; }
+        
+        /* Cart Checkout Form */
+        .cart-checkout-form { margin-top: 1rem; display: flex; flex-direction: column; gap: 10px; }
+        .cart-checkout-form input { padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-family: inherit; }
+        .cart-checkout-form input:focus { outline: none; border-color: var(--color-brand-main); }
+
+        @media (max-width: 768px) {
+            .cart-layout { flex-direction: column; height: 90vh; }
+            .cart-items-col { flex: 1; overflow-y: scroll; border-right: none; border-bottom: 1px solid #eee; padding: 1.5rem; }
+            .cart-summary-col { flex: none; padding: 1.5rem; }
+        }
 
         /* --- Other Sections --- */
         #story-section { display: flex; flex-wrap: wrap; background-color: var(--color-brand-light); }
         
-        /* UPDATED STORY IMAGE CSS */
+        /* STORY IMAGE CSS */
         .story-img { 
             flex: 1 1 400px; 
             min-height: 500px; 
@@ -278,10 +347,6 @@
         @media (max-width: 768px) {
             .nav-menu.active { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: var(--color-bg); padding: 2rem; border-bottom: 1px solid rgba(0,0,0,0.1); box-shadow: 0 10px 20px rgba(0,0,0,0.05); animation: slideDown 0.3s ease-out forwards; }
             @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-            .modal-content { flex-direction: column; max-height: 90vh; overflow-y: auto; border-radius: 0; }
-            .modal-img-container { width: 100%; height: 250px; min-height: 250px; }
-            .modal-body { width: 100%; padding: 2rem; }
-            .close-modal { background: #fff; top: 10px; right: 10px; width: 32px; height: 32px; line-height: 32px; font-size: 1.5rem; }
         }
     </style>
 </head>
@@ -297,7 +362,6 @@
 
             <!-- Responsive Logo -->
             <a href="#top" class="brand-logo">
-                <!-- Updated Logo Image -->
                 <img src="https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/MORY%20LOGO-green.png" alt="MORY Logo">
             </a>
 
@@ -308,11 +372,14 @@
             </nav>
 
             <div class="nav-icons">
-                <button class="icon-btn" aria-label="Search" onclick="window.showToast('Search functionality coming soon!')">
+                <!-- Search Icon (Desktop anchor link to search bar) -->
+                <button class="icon-btn" aria-label="Search" onclick="document.getElementById('search-input').focus()">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                 </button>
-                <button class="icon-btn" aria-label="Cart" onclick="window.showToast('Your cart is currently empty.')">
+                <!-- Cart Icon -->
+                <button class="icon-btn" aria-label="Cart" onclick="window.openCart()">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                    <span class="cart-badge" id="cart-count">0</span>
                 </button>
             </div>
         </div>
@@ -350,12 +417,17 @@
             <h2>Our Signature Drinks</h2>
         </div>
 
-        <div class="grid-drinks">
+        <!-- Search Bar -->
+        <div class="search-container">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="search-input" class="search-input" placeholder="Search for your favorite drink..." onkeyup="window.filterDrinks()">
+        </div>
+
+        <div class="grid-drinks" id="drinks-grid">
             <!-- Drink 1: Strawberry Matcha -->
-            <div class="drink-card reveal" onclick="window.openModal('strawberry')">
+            <div class="drink-card reveal" data-name="strawberry" onclick="window.openModal('strawberry')">
                 <div class="drink-img">
                     <span class="drink-tag">Popular</span>
-                    <!-- Updated Image URL -->
                     <img src="https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Strawberry%20Matcha.jpg" alt="Strawberry Matcha">
                 </div>
                 <div class="drink-info">
@@ -367,9 +439,8 @@
             </div>
 
             <!-- Drink 2: Blueberry Matcha -->
-            <div class="drink-card reveal" onclick="window.openModal('blueberry')">
+            <div class="drink-card reveal" data-name="blueberry" onclick="window.openModal('blueberry')">
                 <div class="drink-img">
-                    <!-- Updated Image URL -->
                     <img src="https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Blueberry%20Matcha.jpg" alt="Blueberry Matcha">
                 </div>
                 <div class="drink-info">
@@ -381,10 +452,9 @@
             </div>
 
             <!-- Drink 3: Matcha Latte -->
-            <div class="drink-card reveal" onclick="window.openModal('latte')">
+            <div class="drink-card reveal" data-name="latte matcha" onclick="window.openModal('latte')">
                 <div class="drink-img">
                     <span class="drink-tag">Classic</span>
-                    <!-- Updated Image URL -->
                     <img src="https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Matcha%20Latte.jpg" alt="Matcha Latte">
                 </div>
                 <div class="drink-info">
@@ -396,10 +466,9 @@
             </div>
 
             <!-- Drink 4: Mango Matcha -->
-            <div class="drink-card reveal" onclick="window.openModal('mango')">
+            <div class="drink-card reveal" data-name="mango" onclick="window.openModal('mango')">
                 <div class="drink-img">
                     <span class="drink-tag">Seasonal</span>
-                    <!-- Updated Image URL -->
                     <img src="https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Mango%20Matcha.jpg" alt="Mango Matcha">
                 </div>
                 <div class="drink-info">
@@ -414,7 +483,6 @@
 
     <!-- About Section -->
     <section id="story-section" class="reveal">
-        <!-- Story Image Changed in CSS -->
         <div class="story-img"></div>
         <div class="story-text">
             <span class="uppercase" style="color: var(--color-brand-main);">Our Philosophy</span>
@@ -500,25 +568,42 @@
                 <h3 id="modal-price" style="color: var(--color-brand-main); margin-bottom: 1.5rem; font-size: 1.5rem;">RM00</h3>
                 <p id="modal-desc" style="color: #444; line-height: 1.7; font-size: 1rem;">Description goes here.</p>
 
-                <div id="order-intro" style="margin-top: auto;">
-                    <button class="btn btn-brand btn-full" onclick="window.showOrderForm()">Order Now</button>
+                <div style="margin-top: auto;">
+                    <button class="btn btn-brand btn-full" onclick="window.addToCartFromModal()">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="modal">
+        <div class="modal-content" style="max-width: 900px; padding: 0; overflow: hidden;">
+            <div class="cart-layout">
+                <!-- Left: Items List -->
+                <div class="cart-items-col">
+                    <button class="close-modal" onclick="window.closeCart()">&times;</button>
+                    <h2 style="margin-bottom: 1.5rem; font-size: 1.8rem;">Your Cart</h2>
+                    <div id="cart-items-container">
+                        <!-- Items injected via JS -->
+                        <p class="empty-cart-msg">Your cart is empty.</p>
+                    </div>
                 </div>
 
-                <div id="order-form-container" class="order-form-container">
-                    <div class="form-group">
-                        <label class="form-label">Name *</label>
-                        <input type="text" id="cust-name" class="form-input" placeholder="Enter your name">
+                <!-- Right: Summary & Checkout -->
+                <div class="cart-summary-col">
+                    <h3>Order Summary</h3>
+                    <div class="cart-total-row">
+                        <span>Total</span>
+                        <span class="cart-total-amount" id="cart-total">RM0</span>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Phone Number *</label>
-                        <input type="tel" id="cust-phone" class="form-input" placeholder="e.g. 0122260069">
+
+                    <div id="checkout-form-container" class="cart-checkout-form" style="display:none;">
+                        <input type="text" id="cart-name" placeholder="Your Name *" class="form-input">
+                        <input type="tel" id="cart-phone" placeholder="Phone Number *" class="form-input">
+                        <button class="btn btn-brand btn-full" onclick="window.submitCartOrder()">Checkout via WhatsApp</button>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Email (Optional)</label>
-                        <input type="email" id="cust-email" class="form-input" placeholder="Enter your email">
-                    </div>
-                    <button class="btn btn-brand btn-full" onclick="window.submitWhatsAppOrder()">Send Order via WhatsApp</button>
-                    <button class="btn btn-full btn-cancel" onclick="window.hideOrderForm()">Cancel</button>
+                    
+                    <button id="btn-start-checkout" class="btn btn-full" style="margin-top: 1rem;" onclick="window.showCheckoutForm()">Proceed to Checkout</button>
                 </div>
             </div>
         </div>
@@ -527,8 +612,7 @@
     <!-- Toast Notification -->
     <div id="toast">Message here</div>
 
-    <!-- HIDDEN LINK FOR WHATSAPP (The Fix) -->
-    <!-- This hidden link is triggered by JS to open WhatsApp -->
+    <!-- HIDDEN LINK FOR WHATSAPP -->
     <a id="wa-link" href="" target="_blank" style="display:none;"></a>
 
     <!-- JS Logic -->
@@ -540,139 +624,226 @@
         window.products = {
             'strawberry': {
                 title: 'Strawberry Matcha',
-                price: 'RM12',
-                // Updated Image URL
+                price: 12,
                 img: 'https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Strawberry%20Matcha.jpg',
                 tag: 'Popular',
-                desc: 'Fresh strawberries blended with premium ceremonial matcha. A perfect balance of sweet berry notes and earthy green tea, creating a refreshing and energizing drink perfect for warm days.'
+                desc: 'Fresh strawberries blended with premium ceremonial matcha. A perfect balance of sweet berry notes and earthy green tea.'
             },
             'blueberry': {
                 title: 'Blueberry Matcha',
-                price: 'RM14',
-                // Updated Image URL
+                price: 14,
                 img: 'https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Blueberry%20Matcha.jpg',
                 tag: 'Rich',
-                desc: 'A tart and sweet fusion of wild blueberries and earthy matcha. Our blueberries are slow-cooked to release their natural sugars, then layered with our signature matcha concentrate.'
+                desc: 'A tart and sweet fusion of wild blueberries and earthy matcha. Our blueberries are slow-cooked to release their natural sugars.'
             },
             'latte': {
                 title: 'Matcha Latte',
-                price: 'RM10',
-                // Updated Image URL
+                price: 10,
                 img: 'https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Matcha%20Latte.jpg',
                 tag: 'Classic',
-                desc: 'Smooth and creamy matcha whisked with your choice of milk. We use organic oat milk as our house standard, but you can swap it for soy or almond for a velvety texture.'
+                desc: 'Smooth and creamy matcha whisked with your choice of milk. We use organic oat milk as our house standard.'
             },
             'mango': {
                 title: 'Mango Matcha',
-                price: 'RM14',
-                // Updated Image URL
+                price: 14,
                 img: 'https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Mango%20Matcha.jpg',
                 tag: 'Seasonal',
-                desc: 'Tropical mango puree layered over our signature matcha blend. Made with Alphonso mangoes for richest flavor, this drink brings a tropical twist to your daily ritual.'
+                desc: 'Tropical mango puree layered over our signature matcha blend. Made with Alphonso mangoes for richest flavor.'
             }
         };
 
-        // --- GLOBAL VARIABLES ---
-        const modal = document.getElementById("product-modal");
-        const orderIntro = document.getElementById("order-intro");
-        const orderForm = document.getElementById("order-form-container");
-        const inpName = document.getElementById("cust-name");
-        const inpPhone = document.getElementById("cust-phone");
-        const inpEmail = document.getElementById("cust-email");
-        window.currentProductKey = '';
+        // --- CART STATE ---
+        let cart = [];
+        let currentModalProductKey = null;
 
-        // --- 1. MODAL FUNCTIONS (Window Scope) ---
+        // --- DOM ELEMENTS ---
+        const productModal = document.getElementById("product-modal");
+        const cartModal = document.getElementById("cart-modal");
+        const cartBadge = document.getElementById("cart-count");
+        const cartItemsContainer = document.getElementById("cart-items-container");
+        const cartTotalEl = document.getElementById("cart-total");
+        const checkoutForm = document.getElementById("checkout-form-container");
+        const btnStartCheckout = document.getElementById("btn-start-checkout");
+
+        // --- 1. PRODUCT MODAL FUNCTIONS ---
         window.openModal = function(key) {
             const product = window.products[key];
             if (!product) return;
             
-            window.currentProductKey = key;
+            currentModalProductKey = key;
             document.getElementById("modal-img").src = product.img;
             document.getElementById("modal-title").textContent = product.title;
-            document.getElementById("modal-price").textContent = product.price;
+            document.getElementById("modal-price").textContent = "RM" + product.price;
             document.getElementById("modal-desc").textContent = product.desc;
             document.getElementById("modal-tag").textContent = product.tag;
 
-            window.hideOrderForm();
-            inpName.value = '';
-            inpPhone.value = '';
-            inpEmail.value = '';
-
-            modal.classList.add('show');
+            productModal.classList.add('show');
             document.body.style.overflow = 'hidden';
         };
 
         window.closeModal = function() {
-            modal.classList.remove('show');
+            productModal.classList.remove('show');
             document.body.style.overflow = 'auto';
         };
 
-        window.showOrderForm = function() {
-            orderIntro.style.display = 'none';
-            orderForm.style.display = 'block';
-            if(window.innerWidth < 768) {
-                const modalBody = document.querySelector('.modal-body');
-                modalBody.scrollTop = modalBody.scrollHeight;
-            }
-        };
-
-        window.hideOrderForm = function() {
-            orderForm.style.display = 'none';
-            orderIntro.style.display = 'block';
-        };
-
-        // --- 2. WHATSAPP FUNCTION (BULLETPROOF HIDDEN LINK METHOD) ---
-        window.submitWhatsAppOrder = function() {
-            try {
-                // Get Values
-                const name = inpName.value.trim();
-                const phone = inpPhone.value.trim();
-                const email = inpEmail.value.trim();
-
-                // Validate
-                if (!name || !phone) {
-                    window.showToast("Please fill in Name and Phone.");
-                    return;
+        window.addToCartFromModal = function() {
+            const product = window.products[currentModalProductKey];
+            if(product) {
+                // Check if already in cart
+                const existing = cart.find(item => item.key === currentModalProductKey);
+                if(existing) {
+                    existing.qty++;
+                } else {
+                    cart.push({
+                        key: currentModalProductKey,
+                        title: product.title,
+                        price: product.price,
+                        img: product.img,
+                        qty: 1
+                    });
                 }
-
-                const product = window.products[window.currentProductKey];
-                
-                // Construct Message
-                // Using %0A (URL encoded newline) for WhatsApp
-                let message = `New Order From MORY Website%0A%0A`;
-                message += `Order Details:%0A`;
-                message += `Item: ${product.title}%0A`;
-                message += `Price: ${product.price}%0A%0A`;
-                message += `Customer Details:%0A`;
-                message += `Name: ${name}%0A`;
-                message += `Phone: ${phone}%0A`;
-                if (email) { 
-                    message += `Email: ${email}%0A`; 
-                }
-                message += `Thank you!`;
-
-                // Create Link
-                // encodeURIComponent handles all spaces and special characters safely
-                const url = `https://wa.me/${WA_NUMBER}?text=${message}`;
-                
-                // --- THE FIX: Hidden Link Trigger ---
-                // We set the href of a real anchor tag and click it.
-                const waLink = document.getElementById('wa-link');
-                waLink.href = url;
-                
-                // Trigger click
-                waLink.click();
-                
-                // Close modal
+                updateCartUI();
                 window.closeModal();
-
-            } catch (error) {
-                console.error("WhatsApp Error:", error);
-                // Silent fail, do not show alert
+                window.showToast("Added to Cart! 🍵");
             }
         };
 
-        // --- 3. TOAST (Window Scope) ---
+        // --- 2. CART FUNCTIONS ---
+        window.openCart = function() {
+            renderCartItems();
+            cartModal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+            // Reset checkout view
+            checkoutForm.style.display = 'none';
+            btnStartCheckout.style.display = 'inline-block';
+        };
+
+        window.closeCart = function() {
+            cartModal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        };
+
+        window.updateCartUI = function() {
+            // Update badge
+            const totalQty = cart.reduce((acc, item) => acc + item.qty, 0);
+            cartBadge.textContent = totalQty;
+            if(totalQty > 0) {
+                cartBadge.classList.add('visible');
+            } else {
+                cartBadge.classList.remove('visible');
+            }
+        };
+
+        window.renderCartItems = function() {
+            cartItemsContainer.innerHTML = '';
+            let totalPrice = 0;
+
+            if(cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p class="empty-cart-msg">Your cart is empty.</p>';
+                cartTotalEl.textContent = "RM0";
+                btnStartCheckout.disabled = true;
+                btnStartCheckout.style.opacity = "0.5";
+                return;
+            }
+
+            btnStartCheckout.disabled = false;
+            btnStartCheckout.style.opacity = "1";
+
+            cart.forEach((item, index) => {
+                totalPrice += item.price * item.qty;
+                
+                const itemEl = document.createElement('div');
+                itemEl.className = 'cart-item';
+                itemEl.innerHTML = `
+                    <img src="${item.img}" class="cart-item-img" alt="${item.title}">
+                    <div class="cart-item-details">
+                        <div class="cart-item-title">${item.title}</div>
+                        <div class="cart-item-price">RM${item.price} x ${item.qty}</div>
+                    </div>
+                    <button class="btn btn-sm btn-danger" onclick="window.removeFromCart(${index})" style="padding: 6px 10px;">Remove</button>
+                `;
+                cartItemsContainer.appendChild(itemEl);
+            });
+
+            cartTotalEl.textContent = "RM" + totalPrice;
+        };
+
+        window.removeFromCart = function(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+            renderCartItems();
+        };
+
+        window.showCheckoutForm = function() {
+            btnStartCheckout.style.display = 'none';
+            checkoutForm.style.display = 'flex';
+            // Scroll to bottom of modal on mobile
+            if(window.innerWidth < 768) {
+                const col = document.querySelector('.cart-summary-col');
+                col.scrollIntoView({behavior: 'smooth'});
+            }
+        };
+
+        // --- 3. WHATSAPP CHECKOUT LOGIC ---
+        window.submitCartOrder = function() {
+            const name = document.getElementById('cart-name').value.trim();
+            const phone = document.getElementById('cart-phone').value.trim();
+
+            if(!name || !phone) {
+                window.showToast("Please fill in Name and Phone.");
+                return;
+            }
+
+            // Build Message
+            let message = `*NEW ORDER FROM MORY WEBSITE*%0A%0A`;
+            message += `*Order Details:*%0A`;
+            
+            let totalPrice = 0;
+            cart.forEach(item => {
+                const lineTotal = item.price * item.qty;
+                totalPrice += lineTotal;
+                message += `- ${item.title} (x${item.qty}): RM${lineTotal}%0A`;
+            });
+
+            message += `%0A*Total Price: RM${totalPrice}*%0A%0A`;
+            message += `*Customer Info:*%0A`;
+            message += `Name: ${name}%0A`;
+            message += `Phone: ${phone}%0A`;
+            message += `Thank you!`;
+
+            const url = `https://wa.me/${WA_NUMBER}?text=${message}`;
+            
+            const waLink = document.getElementById('wa-link');
+            waLink.href = url;
+            waLink.click();
+
+            // Clear cart and close
+            cart = [];
+            updateCartUI();
+            window.closeCart();
+        };
+
+        // --- 4. SEARCH FUNCTIONALITY ---
+        window.filterDrinks = function() {
+            const input = document.getElementById('search-input');
+            const filter = input.value.toLowerCase();
+            const grid = document.getElementById('drinks-grid');
+            const cards = grid.getElementsByClassName('drink-card');
+
+            for (let i = 0; i < cards.length; i++) {
+                const title = cards[i].querySelector("h3").textContent || cards[i].querySelector("h3").innerText;
+                const dataName = cards[i].getAttribute("data-name");
+                
+                // Match against title or hidden data-name attribute
+                if (title.toLowerCase().indexOf(filter) > -1 || dataName.toLowerCase().indexOf(filter) > -1) {
+                    cards[i].style.display = "";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+        };
+
+        // --- 5. TOAST ---
         window.showToast = function(message) {
             const toast = document.getElementById("toast");
             toast.textContent = message;
@@ -680,12 +851,11 @@
             setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
         };
 
-        // --- 4. NAVIGATION & SCROLL ---
+        // --- 6. NAVIGATION & SCROLL ---
         document.addEventListener('DOMContentLoaded', () => {
             // Mobile Menu
             const toggle = document.querySelector('.menu-toggle');
             const nav = document.querySelector('.nav-menu');
-            
             if(toggle) {
                 toggle.addEventListener('click', () => {
                     nav.classList.toggle('active');
@@ -696,6 +866,9 @@
             const links = document.querySelectorAll('a[href^="#"]');
             links.forEach(link => {
                 link.addEventListener('click', function (e) {
+                    // If search icon or cart icon, don't default scroll
+                    if(this.getAttribute('onclick')) return;
+                    
                     e.preventDefault();
                     const targetId = this.getAttribute('href').substring(1);
                     const targetElement = document.getElementById(targetId);
@@ -749,7 +922,7 @@
             });
         });
 
-        // --- 5. SCROLL TOP ---
+        // --- 7. SCROLL TOP & HEADER ---
         const mybutton = document.getElementById("scrollTopBtn");
         const header = document.getElementById('main-header');
 
@@ -770,7 +943,7 @@
             window.scrollTo({top: 0, behavior: 'smooth'});
         }
 
-        // --- 6. NEWSLETTER ---
+        // --- 8. NEWSLETTER ---
         document.getElementById('newsletter-form').addEventListener('submit', function(e) {
             e.preventDefault();
             const input = this.querySelector('input');
@@ -784,10 +957,13 @@
             }
         });
 
-        // Close modal on outside click
+        // Close modals on outside click
         window.onclick = function(event) {
-            if (event.target == modal) {
+            if (event.target == productModal) {
                 window.closeModal();
+            }
+            if (event.target == cartModal) {
+                window.closeCart();
             }
         }
     </script>
