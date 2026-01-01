@@ -3,276 +3,365 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MORY [Ultimate Demo]</title>
+    <title>MORY [Modern Store - Delivery Ready]</title>
     <style>
         /* --- Design Tokens --- */
         :root {
             --color-brand-dark: #2F4F4F;
-            --color-brand-main: #5D8C71;
+            --color-brand-main: #5D8C71;      /* Matcha Green */
+            --color-brand-hover: #4a755e;
             --color-brand-light: #E0F2E9;
             --color-accent: #D4A373;
-            --color-bg: #F9F9F7;
+            --color-bg: #F8F9FA;              /* Cleaner off-white */
+            --color-card-bg: #FFFFFF;
             --color-text: #2C2C2C;
-            --color-text-light: #666666;
-            --color-white: #FFFFFF;
-            --font-sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            --color-text-light: #6c757d;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
+            --shadow-lg: 0 16px 40px rgba(0,0,0,0.12);
+            --radius-md: 16px;
+            --radius-lg: 24px;
             --container-width: 1100px;
             --spacing-section: 100px 24px;
-            --header-height: 80px;
+            --header-height: 70px;
         }
 
         /* --- Reset & Global --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: auto; }
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: var(--font-sans);
             background-color: var(--color-bg);
             color: var(--color-text);
-            line-height: 1.5;
+            line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             overflow-x: hidden;
-            opacity: 0; /* For loading animation */
-            animation: pageFadeIn 0.8s ease-out forwards;
         }
-
-        @keyframes pageFadeIn { to { opacity: 1; } }
 
         a { text-decoration: none; color: inherit; transition: color 0.3s ease; }
         img { max-width: 100%; display: block; }
         ul { list-style: none; }
-        button { font-family: inherit; cursor: pointer; outline: none; }
+        button { font-family: inherit; cursor: pointer; border: none; }
 
         /* --- Typography --- */
-        h1, h2, h3 { font-weight: 400; line-height: 1.2; }
+        h1, h2, h3 { font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; }
         .text-center { text-align: center; }
-        .uppercase { text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.8rem; }
-        h1 { font-size: 2.8rem; margin-bottom: 1rem; letter-spacing: -0.03em; }
-        h2 { font-size: 2.2rem; margin-bottom: 2rem; letter-spacing: -0.02em; }
-        p { color: var(--color-text-light); margin-bottom: 1.5rem; font-weight: 300; }
-        @media (min-width: 768px) { h1 { font-size: 4.5rem; } }
+        .uppercase { text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.75rem; font-weight: 600; }
+        
+        h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        h2 { font-size: 2rem; margin-bottom: 1.5rem; }
+        h3 { font-size: 1.25rem; margin-bottom: 0.5rem; }
+        p { color: var(--color-text-light); margin-bottom: 1rem; font-weight: 400; font-size: 0.95rem; }
 
-        /* --- Buttons --- */
+        @media (min-width: 768px) {
+            h1 { font-size: 4rem; }
+            h2 { font-size: 2.5rem; }
+        }
+
+        /* --- Buttons (Modern) --- */
         .btn {
             display: inline-flex; align-items: center; justify-content: center;
-            padding: 14px 36px;
-            border: 1px solid var(--color-text);
-            background: transparent;
-            color: var(--color-text);
-            font-size: 0.75rem;
+            padding: 12px 28px;
+            border-radius: 50px;
             font-weight: 600;
-            letter-spacing: 0.15em;
+            letter-spacing: 0.03em;
             text-transform: uppercase;
-            transition: all 0.3s ease;
+            font-size: 0.8rem;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             position: relative;
             overflow: hidden;
         }
-        .btn:hover {
-            background: var(--color-text);
-            color: var(--color-white);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-        }
+
         .btn-brand {
             background-color: var(--color-brand-main);
-            border-color: var(--color-brand-main);
-            color: var(--color-white);
+            color: white;
+            box-shadow: 0 4px 12px rgba(93, 140, 113, 0.3);
         }
+
         .btn-brand:hover {
-            background-color: var(--color-brand-dark);
-            border-color: var(--color-brand-dark);
-            box-shadow: 0 4px 12px rgba(93, 140, 113, 0.4);
+            background-color: var(--color-brand-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(93, 140, 113, 0.4);
         }
-        .btn-full { width: 100%; text-align: center; }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--color-text);
+            color: var(--color-text);
+        }
+        .btn-outline:hover {
+            background: var(--color-text);
+            color: white;
+        }
+
+        .btn-full { width: 100%; }
         .btn-sm { padding: 8px 16px; font-size: 0.7rem; }
-        .btn-danger { background-color: #ff6b6b; color: white; border: none; }
-        .btn-danger:hover { background-color: #e05555; }
+        .btn-danger { background-color: #ff6b6b; color: white; }
+        .btn-danger:hover { background-color: #fa5252; }
 
         /* --- Header --- */
         header {
             position: fixed;
             top: 0; left: 0; width: 100%;
-            background: rgba(249, 249, 247, 0.95);
-            backdrop-filter: blur(12px); /* Stronger blur */
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             z-index: 1000;
             border-bottom: 1px solid rgba(0,0,0,0.05);
             transition: box-shadow 0.3s ease;
         }
-        header.scrolled { box-shadow: 0 4px 12px rgba(0,0,0,0.05); padding-top: 5px; }
-        .nav-container { max-width: var(--container-width); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 24px; height: var(--header-height); transition: height 0.3s ease; }
-        header.scrolled .nav-container { height: 70px; }
+        header.scrolled { box-shadow: var(--shadow-sm); padding-top: 0; }
         
-        .brand-logo { display: flex; align-items: center; cursor: pointer; z-index: 1001; margin-right: auto; }
-        .brand-logo img { height: 60%; max-height: 45px; min-height: 30px; width: auto; object-fit: contain; transition: all 0.3s ease; }
-        @media (min-width: 769px) { .brand-logo img { max-width: 150px; } .menu-toggle { margin-right: 20px; } }
-        @media (max-width: 768px) { .brand-logo { margin-left: 10px; } .brand-logo img { max-width: 110px; height: 50%; } .menu-toggle { margin-right: 10px; } }
+        .nav-container { max-width: var(--container-width); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 24px; height: var(--header-height); transition: height 0.3s ease; }
+        
+        .brand-logo { display: flex; align-items: center; cursor: pointer; margin-right: auto; }
+        .brand-logo img { height: 45px; width: auto; object-fit: contain; }
         
         .nav-menu { display: none; }
-        .nav-icons { display: flex; gap: 1.5rem; align-items: center; }
-        .icon-btn { background: none; border: none; cursor: pointer; padding: 0; position: relative; transition: transform 0.2s; }
-        .icon-btn:hover { transform: scale(1.1); color: var(--color-brand-main); }
+        .nav-menu a { font-size: 0.85rem; font-weight: 600; color: var(--color-text-light); margin: 0 10px; transition: 0.3s; }
+        .nav-menu a:hover, .nav-menu a.active { color: var(--color-brand-main); }
         
+        .nav-icons { display: flex; gap: 1.2rem; align-items: center; }
+        .icon-btn { background: none; border: none; cursor: pointer; padding: 8px; border-radius: 50%; transition: background 0.2s; display: flex; align-items: center; justify-content: center; }
+        .icon-btn:hover { background: rgba(0,0,0,0.05); }
+        .icon-btn svg { width: 22px; height: 22px; stroke: var(--color-text); stroke-width: 2; }
+
         .cart-badge {
-            position: absolute; top: -5px; right: -8px;
-            background-color: var(--color-brand-main); color: white;
-            font-size: 0.6rem; font-weight: bold; width: 18px; height: 18px;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            opacity: 0; transition: opacity 0.3s;
+            position: absolute; top: 0; right: 0;
+            background: #ff4757; color: white;
+            font-size: 0.65rem; font-weight: 700;
+            width: 18px; height: 18px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            transform: scale(0); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        .cart-badge.visible { opacity: 1; }
+        .cart-badge.visible { transform: scale(1); }
+
         .menu-toggle { display: block; background: none; border: none; cursor: pointer; z-index: 1001; }
-        .nav-menu a.active { color: var(--color-brand-main); font-weight: 600; }
-        @media (min-width: 768px) { .nav-menu { display: flex; gap: 2.5rem; } .nav-menu a { font-size: 0.8rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; } .menu-toggle { display: none; } }
+        
+        @media (min-width: 768px) {
+            .nav-menu { display: flex; align-items: center; }
+            .menu-toggle { display: none; }
+        }
+        @media (max-width: 768px) {
+            .nav-menu.active { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: white; padding: 1.5rem; border-bottom: 1px solid rgba(0,0,0,0.1); box-shadow: var(--shadow-md); animation: slideDown 0.3s ease-out; }
+            .nav-menu a { margin: 10px 0; font-size: 1rem; }
+        }
 
         /* --- Hero --- */
-        .hero { position: relative; height: 85vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Matcho.jpg'); background-size: cover; background-position: center; z-index: -1; filter: brightness(0.9); transform: scale(1.05); animation: breathe 20s infinite alternate; }
-        @keyframes breathe { from { transform: scale(1.05); } to { transform: scale(1.1); } }
-        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(249,249,247,0.1), rgba(249,249,247,0.7)); }
-        .hero-content { position: relative; background: rgba(255, 255, 255, 0.85); padding: 3rem 2rem; max-width: 500px; text-align: center; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.9); box-shadow: 0 10px 40px rgba(0,0,0,0.05); animation: fadeInUp 1s ease-out forwards; }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .hero { position: relative; height: 85vh; display: flex; align-items: center; justify-content: center; overflow: hidden; background: #000; }
+        .hero-bg { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            background-image: url('https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Matcho.jpg'); 
+            background-size: cover; background-position: center; opacity: 0.6; 
+            animation: breathe 25s infinite alternate; transform: scale(1.1);
+        }
+        @keyframes breathe { from { transform: scale(1.1); } to { transform: scale(1.2); } }
+        
+        .hero-content { position: relative; z-index: 2; color: white; text-align: center; max-width: 600px; padding: 2rem; }
+        .hero-content h1 { margin-bottom: 1.5rem; text-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .hero-content p { color: rgba(255,255,255,0.9); font-size: 1.1rem; margin-bottom: 2rem; text-shadow: 0 2px 5px rgba(0,0,0,0.2); }
 
         /* --- Marquee --- */
-        .marquee-bar { background-color: var(--color-brand-dark); color: var(--color-white); overflow: hidden; padding: 12px 0; white-space: nowrap; }
-        .marquee-content { display: inline-block; animation: marquee 25s linear infinite; }
-        .marquee-content span { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.2em; margin-right: 3rem; font-weight: 600; }
+        .marquee-bar { background-color: var(--color-brand-dark); color: white; overflow: hidden; padding: 10px 0; white-space: nowrap; }
+        .marquee-content { display: inline-block; animation: marquee 30s linear infinite; }
+        .marquee-content span { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; margin-right: 4rem; text-transform: uppercase; }
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         /* --- Search --- */
         .search-container { max-width: 500px; margin: 0 auto 3rem auto; position: relative; }
-        .search-input { width: 100%; padding: 12px 20px 12px 45px; border: 1px solid #ddd; border-radius: 30px; font-family: var(--font-sans); font-size: 0.95rem; outline: none; transition: all 0.3s; background: white; }
-        .search-input:focus { border-color: var(--color-brand-main); box-shadow: 0 0 0 3px rgba(93, 140, 113, 0.1); }
-        .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; stroke: #aaa; pointer-events: none; }
-        .no-results { grid-column: 1 / -1; text-align: center; padding: 2rem; color: #999; display: none; }
+        .search-input { 
+            width: 100%; padding: 14px 20px 14px 50px; 
+            border-radius: 50px; border: 1px solid #e9ecef; 
+            background: white; box-shadow: var(--shadow-sm); 
+            font-size: 0.95rem; transition: all 0.3s; 
+        }
+        .search-input:focus { border-color: var(--color-brand-main); box-shadow: 0 0 0 4px rgba(93, 140, 113, 0.1); }
+        .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); width: 20px; stroke: #adb5bd; }
+        .no-results { grid-column: 1 / -1; text-align: center; padding: 3rem 1rem; color: #adb5bd; display: none; background: white; border-radius: 16px; }
 
-        /* --- Grid & Cards --- */
+        /* --- Grid & Cards (Modern) --- */
         #menu-section { padding: var(--spacing-section); max-width: var(--container-width); margin: 0 auto; }
-        .section-header { text-align: center; margin-bottom: 2rem; }
-        .grid-drinks { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2.5rem; justify-items: center; }
-        
-        .drink-card { background: var(--color-white); border-radius: 12px; padding: 1rem; border: 1px solid rgba(0,0,0,0.03); cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; box-shadow: 0 2px 5px rgba(0,0,0,0.02); width: 100%; max-width: 300px; display: flex; flex-direction: column; align-items: center; text-align: center; }
-        .drink-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.08); }
-        
-        /* Movie Poster Ratio */
-        .drink-img { width: 100%; aspect-ratio: 2/3; overflow: hidden; background-color: #eee; margin-bottom: 1rem; border-radius: 8px; position: relative; }
-        .drink-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
-        .drink-card:hover .drink-img img { transform: scale(1.08); }
-        
-        .drink-tag { position: absolute; top: 15px; left: 15px; background: var(--color-white); padding: 6px 12px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; border-radius: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 2; }
-        .drink-info { text-align: center; width: 100%; }
-        .drink-info h3 { font-size: 1.1rem; margin-bottom: 0.5rem; font-weight: 500; }
-        .drink-info .price { font-family: var(--font-sans); color: var(--color-brand-main); font-weight: 600; font-size: 1rem; margin-bottom: 0.5rem; }
-        .drink-desc-preview { font-size: 0.85rem; margin-bottom: 1rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        
-        .tap-hint { font-size: 0.75rem; color: var(--color-white); background-color: var(--color-brand-main); padding: 10px 20px; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; opacity: 0.8; transition: all 0.3s; display: inline-block; box-shadow: 0 4px 6px rgba(93, 140, 113, 0.2); }
-        .drink-card:hover .tap-hint { opacity: 1; box-shadow: 0 6px 12px rgba(93, 140, 113, 0.4); }
+        .section-header { text-align: center; margin-bottom: 3rem; }
+        .section-header span { color: var(--color-brand-main); font-weight: 700; display: block; margin-bottom: 0.5rem; }
 
-        /* Mobile Responsive Grid */
-        @media (max-width: 768px) {
-            .grid-drinks { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-            .drink-card { padding: 0.5rem; max-width: 100%; border-radius: 8px; }
-            .drink-card:hover { transform: none; }
-            .drink-img { margin-bottom: 0.5rem; border-radius: 6px; }
-            .drink-img img { object-position: top center; }
-            .drink-tag { top: 8px; left: 8px; padding: 4px 8px; font-size: 0.6rem; }
-            .drink-info { text-align: center; }
-            .drink-info h3 { font-size: 0.9rem; margin-bottom: 0.2rem; line-height: 1.2; }
-            .drink-info .price { font-size: 0.9rem; margin-bottom: 0.4rem; }
-            .drink-desc-preview { display: none; }
-            .tap-hint { opacity: 1; width: 90%; display: block; font-size: 0.7rem; padding: 8px 0; border-radius: 6px; margin-top: 5px; }
+        .grid-drinks { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 2rem; justify-items: center; }
+        
+        .drink-card { 
+            background: var(--color-card-bg);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+            max-width: 300px;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
         }
 
-        /* --- Modals --- */
-        .modal { display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.75); backdrop-filter: blur(8px); align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; padding: 20px; }
-        .modal.show { display: flex; opacity: 1; }
-        .modal-content { background-color: #fff; margin: auto; padding: 0; border: none; width: 100%; max-width: 900px; border-radius: 16px; position: relative; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3); animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); overflow: hidden; display: flex; flex-direction: row; }
-        @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        
-        .modal-img-container { width: 50%; min-height: 500px; background-color: #eee; position: relative; cursor: zoom-in; overflow: hidden; }
-        .modal-img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
-        .modal-img-container:hover img { transform: scale(1.05); }
-        .zoom-hint { position: absolute; bottom: 20px; right: 20px; background: rgba(0,0,0,0.5); color: white; padding: 5px 10px; border-radius: 4px; font-size: 0.7rem; pointer-events: none; opacity: 0; transition: opacity 0.3s; }
-        .modal-img-container:hover .zoom-hint { opacity: 1; }
-        
-        .modal-body { width: 50%; padding: 3rem; display: flex; flex-direction: column; justify-content: center; position: relative; }
-        .close-modal { position: absolute; top: 20px; right: 20px; background: transparent; border: none; font-size: 2rem; color: #888; cursor: pointer; z-index: 10; width: 40px; height: 40px; line-height: 40px; text-align: center; border-radius: 50%; transition: background 0.3s, transform 0.3s; }
-        .close-modal:hover { background: #f0f0f0; color: #000; transform: rotate(90deg); }
-        
-        /* Qty Selector */
-        .qty-control { display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 150px; margin-bottom: 1.5rem; border: 1px solid #ddd; border-radius: 30px; overflow: hidden; }
-        .qty-btn { background: #f9f9f9; border: none; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #555; transition: background 0.2s; }
-        .qty-btn:hover { background: #eee; color: var(--color-brand-main); }
-        .qty-val { font-weight: 600; width: 60px; text-align: center; font-size: 1rem; }
+        .drink-card:hover { 
+            transform: translateY(-8px); 
+            box-shadow: var(--shadow-lg); 
+            border-color: transparent;
+        }
 
-        /* Image Zoom Overlay */
+        /* Image Area */
+        .drink-img-container { 
+            width: 100%; 
+            aspect-ratio: 2/3; 
+            overflow: hidden; 
+            position: relative;
+            background: #f1f3f5;
+        }
+        .drink-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        .drink-card:hover .drink-img { transform: scale(1.08); }
+        
+        /* Badges */
+        .drink-tag { 
+            position: absolute; top: 12px; left: 12px; 
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(4px);
+            padding: 4px 10px; border-radius: 6px; 
+            font-size: 0.65rem; font-weight: 700; text-transform: uppercase; 
+            letter-spacing: 0.05em; color: var(--color-brand-main);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 2;
+        }
+
+        /* Content Area */
+        .drink-content { padding: 1.25rem; display: flex; flex-direction: column; align-items: center; flex: 1; width: 100%; }
+        .drink-info h3 { font-size: 1.05rem; color: var(--color-text); margin-bottom: 0.3rem; text-align: center; line-height: 1.3; }
+        .drink-price { font-size: 1.1rem; color: var(--color-brand-main); font-weight: 700; margin-bottom: 0.5rem; }
+        
+        /* Add to Cart Button (Modern) */
+        .add-to-cart-btn {
+            margin-top: auto;
+            width: 100%;
+            padding: 10px;
+            border-radius: 12px;
+            background: var(--color-brand-light);
+            color: var(--color-brand-main);
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        
+        .drink-card:hover .add-to-cart-btn {
+            background: var(--color-brand-main);
+            color: white;
+            box-shadow: 0 4px 12px rgba(93, 140, 113, 0.25);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .grid-drinks { grid-template-columns: repeat(2, 1fr); gap: 1rem; padding: 0 0.5rem; }
+            .drink-card { padding: 0; max-width: 100%; border-radius: 12px; }
+            .drink-img-container { aspect-ratio: 4/5; }
+            .drink-content { padding: 0.8rem 0.5rem; }
+            .drink-info h3 { font-size: 0.95rem; }
+            .drink-price { font-size: 1rem; }
+            .drink-desc { display: none; }
+            .add-to-cart-btn { padding: 8px; font-size: 0.75rem; border-radius: 8px; }
+            .drink-card:hover { transform: none; }
+            .drink-card:hover .add-to-cart-btn { background: var(--color-brand-light); color: var(--color-brand-main); }
+        }
+
+        /* --- Modals (Modern) --- */
+        .modal { display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); backdrop-filter: blur(4px); align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; padding: 20px; }
+        .modal.show { display: flex; opacity: 1; }
+        
+        .modal-content { background-color: #fff; margin: auto; width: 100%; max-width: 900px; border-radius: 20px; position: relative; box-shadow: var(--shadow-lg); animation: popUp 0.4s cubic-bezier(0.19, 1, 0.22, 1); overflow: hidden; display: flex; flex-direction: row; }
+        @keyframes popUp { from { transform: scale(0.95) translateY(20px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
+
+        .modal-img-wrapper { width: 50%; background: #f1f3f5; position: relative; }
+        .modal-img-wrapper img { width: 100%; height: 100%; object-fit: cover; cursor: zoom-in; transition: transform 0.5s; }
+        .modal-img-wrapper:hover img { transform: scale(1.05); }
+        
+        .modal-details { width: 50%; padding: 3rem; display: flex; flex-direction: column; position: relative; }
+        .close-modal { position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.05); border: none; font-size: 1.5rem; color: #444; cursor: pointer; width: 40px; height: 40px; border-radius: 50%; transition: background 0.2s; display: flex; align-items: center; justify-content: center; }
+        .close-modal:hover { background: #000; color: white; }
+
+        /* Qty Selector */
+        .qty-wrapper { display: flex; align-items: center; justify-content: center; gap: 15px; margin: 1.5rem 0; background: #f8f9fa; padding: 5px; border-radius: 50px; width: fit-content; align-self: center; }
+        .qty-btn { width: 36px; height: 36px; border-radius: 50%; border: 1px solid #dee2e6; background: white; display: flex; align-items: center; justify-content: center; font-weight: bold; transition: 0.2s; }
+        .qty-btn:hover { border-color: var(--color-brand-main); color: var(--color-brand-main); }
+        .qty-display { font-weight: 700; font-size: 1.1rem; width: 40px; text-align: center; }
+
+        /* Delivery Toggle Style */
+        .delivery-toggle { 
+            display: flex; background: #f1f3f5; padding: 4px; border-radius: 12px; margin-bottom: 1.5rem; 
+        }
+        .toggle-option { 
+            flex: 1; text-align: center; padding: 10px; border-radius: 10px; font-size: 0.9rem; font-weight: 600; color: #868e96; cursor: pointer; transition: all 0.3s; 
+            display: flex; align-items: center; justify-content: center; gap: 6px;
+        }
+        .toggle-option.active { background: white; color: var(--color-brand-main); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+
+        /* Form Inputs */
+        .form-group { margin-bottom: 1rem; text-align: left; }
+        .form-label { display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--color-text-light); margin-bottom: 0.5rem; }
+        .form-input { 
+            width: 100%; padding: 12px 16px; border: 1px solid #e9ecef; border-radius: 12px; 
+            font-family: inherit; font-size: 0.95rem; transition: all 0.3s; background: white; 
+        }
+        .form-input:focus { border-color: var(--color-brand-main); box-shadow: 0 0 0 3px rgba(93, 140, 113, 0.1); background: #fff; }
+        .hidden { display: none; }
+
+        /* Cart Items */
+        .cart-items-col { flex: 2; padding: 2.5rem; overflow-y: auto; border-right: 1px solid #f1f3f5; background: #fff; }
+        .cart-summary-col { flex: 1.2; padding: 2.5rem; background: #fafbfc; display: flex; flex-direction: column; }
+        
+        .cart-item { display: flex; gap: 1rem; margin-bottom: 1.5rem; align-items: center; padding-bottom: 1.5rem; border-bottom: 1px solid #f1f3f5; }
+        .cart-item-img { width: 70px; height: 70px; border-radius: 12px; object-fit: cover; background: #eee; }
+        .cart-item-info { flex: 1; }
+        .cart-item-title { font-weight: 600; color: var(--color-text); margin-bottom: 4px; }
+        .cart-item-meta { font-size: 0.85rem; color: var(--color-text-light); }
+        
+        .cart-mini-qty { display: flex; align-items: center; gap: 10px; margin-top: 5px; }
+        .mini-qty-btn { width: 24px; height: 24px; border-radius: 6px; background: #f1f3f5; border: none; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; }
+        .mini-qty-btn:hover { background: #e9ecef; }
+        
+        .cart-total { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 2rem; border-top: 2px solid #e9ecef; }
+        .total-amount { font-size: 1.8rem; font-weight: 800; color: var(--color-brand-main); }
+        
+        .empty-cart { text-align: center; color: #adb5bd; padding-top: 3rem; display: flex; flex-direction: column; align-items: center; }
+        .empty-cart svg { width: 60px; height: 60px; margin-bottom: 1rem; stroke: #dee2e6; }
+
+        /* Zoom Overlay */
         #zoom-overlay { display: none; position: fixed; z-index: 4000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; }
-        #zoom-overlay img { max-height: 90vh; max-width: 90vw; object-fit: contain; border-radius: 4px; }
+        #zoom-overlay img { max-height: 90vh; max-width: 90vw; object-fit: contain; border-radius: 8px; }
         #zoom-overlay .close-zoom { position: absolute; top: 30px; right: 30px; color: white; font-size: 3rem; cursor: pointer; line-height: 1; }
 
+        /* Toast */
+        #toast { visibility: hidden; min-width: 280px; background-color: #333; color: #fff; text-align: center; border-radius: 50px; padding: 14px 28px; position: fixed; z-index: 4000; left: 50%; bottom: 30px; transform: translateX(-50%) translateY(20px); font-size: 0.9rem; box-shadow: 0 10px 30px rgba(0,0,0,0.2); opacity: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        #toast.show { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); bottom: 40px; }
+
+        /* Back to top */
+        #scrollTopBtn { display: none; position: fixed; bottom: 30px; right: 30px; z-index: 999; border: none; outline: none; background-color: var(--color-brand-main); color: white; cursor: pointer; padding: 14px; border-radius: 50%; box-shadow: 0 5px 15px rgba(93, 140, 113, 0.3); transition: all 0.3s; }
+        #scrollTopBtn:hover { transform: translateY(-5px); background-color: var(--color-brand-dark); }
+
+        /* Mobile Responsive Modal */
         @media (max-width: 768px) {
-            .modal-content { flex-direction: column; max-height: 90vh; overflow-y: auto; border-radius: 0; }
-            .modal-img-container { width: 100%; height: 250px; min-height: 250px; }
-            .modal-body { width: 100%; padding: 2rem; }
-            .close-modal { background: #fff; top: 10px; right: 10px; width: 32px; height: 32px; line-height: 32px; font-size: 1.5rem; }
-            .zoom-hint { display: none; } /* Hide hint on touch */
-        }
-
-        /* --- Cart --- */
-        .cart-layout { display: flex; height: 600px; max-height: 80vh; }
-        .cart-items-col { flex: 2; padding: 2rem; overflow-y: auto; border-right: 1px solid #eee; }
-        .cart-summary-col { flex: 1; padding: 2rem; background: #fafafa; display: flex; flex-direction: column; }
-        .cart-item { display: flex; gap: 1rem; margin-bottom: 1.5rem; align-items: center; padding-bottom: 1rem; border-bottom: 1px solid #eee; animation: slideInRight 0.3s ease; }
-        @keyframes slideInRight { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
-        .cart-item-img { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; background: #eee; }
-        .cart-item-details { flex: 1; }
-        .cart-item-title { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.2rem; }
-        .cart-item-price { color: var(--color-brand-main); font-size: 0.9rem; }
-        .cart-total-row { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 1.5rem; border-top: 2px solid #ddd; }
-        .cart-total-amount { font-size: 1.5rem; font-weight: bold; color: var(--color-brand-dark); }
-        .empty-cart-msg { text-align: center; color: #999; margin-top: 3rem; display: flex; flex-direction: column; align-items: center; }
-        .empty-cart-msg svg { width: 48px; height: 48px; margin-bottom: 1rem; stroke: #ddd; }
-        .cart-checkout-form { margin-top: 1rem; display: flex; flex-direction: column; gap: 10px; }
-        .cart-checkout-form input { padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-family: inherit; }
-        .cart-checkout-form input:focus { outline: none; border-color: var(--color-brand-main); }
-
-        /* Cart Item Qty Controls */
-        .cart-qty-control { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
-        .mini-btn { width: 24px; height: 24px; border-radius: 4px; border: 1px solid #ddd; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; cursor: pointer; }
-        .mini-btn:hover { border-color: var(--color-brand-main); color: var(--color-brand-main); }
-
-        @media (max-width: 768px) {
-            .cart-layout { flex-direction: column; height: 90vh; }
-            .cart-items-col { flex: 1; overflow-y: scroll; border-right: none; border-bottom: 1px solid #eee; padding: 1.5rem; }
+            .modal-content { flex-direction: column; height: 100%; max-height: 100vh; border-radius: 0; animation: none; }
+            .modal-img-wrapper { width: 100%; height: 300px; flex: none; }
+            .modal-details { width: 100%; padding: 2rem; overflow-y: auto; }
+            .cart-items-col { flex: 1; overflow-y: scroll; border-right: none; padding: 1.5rem; border-bottom: 1px solid #f1f3f5; }
             .cart-summary-col { flex: none; padding: 1.5rem; }
         }
-
-        /* --- Other --- */
-        #story-section { display: flex; flex-wrap: wrap; background-color: var(--color-brand-light); }
-        .story-img { flex: 1 1 400px; min-height: 500px; background-image: url('https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/MORY%20ICON-green.png'); background-size: cover; background-position: center; }
-        .story-text { flex: 1 1 400px; padding: 4rem 3rem; display: flex; flex-direction: column; justify-content: center; }
-        .story-text h2 { color: var(--color-brand-dark); }
-        #locations-section { padding: 4rem 24px; border-top: 1px solid rgba(0,0,0,0.08); background: var(--color-white); }
-        .info-grid { max-width: var(--container-width); margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; text-align: center; }
-        .info-item svg { width: 32px; height: 32px; stroke: var(--color-brand-main); margin-bottom: 1rem; transition: transform 0.3s; }
-        .info-item:hover svg { transform: translateY(-5px); }
-        .info-item h4 { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+        
+        /* Footer */
         footer { background-color: #1a1a1a; color: #888; padding: 4rem 24px; font-size: 0.9rem; }
         .footer-content { max-width: var(--container-width); margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; margin-bottom: 3rem; }
-        .footer-col h4 { color: var(--color-white); margin-bottom: 1.5rem; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; }
-        .footer-col ul li { margin-bottom: 0.8rem; }
-        .footer-col a:hover { color: var(--color-white); }
-        .newsletter-input { width: 100%; padding: 12px; background: #333; border: 1px solid #333; color: white; margin-bottom: 10px; transition: border-color 0.3s; }
-        .newsletter-input:focus { outline: 1px solid #555; border-color: #555; }
-        .newsletter-success { color: var(--color-brand-main); font-size: 0.9rem; margin-top: 10px; display: none; }
+        .footer-col h4 { color: #fff; margin-bottom: 1.5rem; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+        .footer-col a { color: #adb5bd; transition: 0.2s; display: block; margin-bottom: 0.8rem; }
+        .footer-col a:hover { color: #fff; }
         .copyright { max-width: var(--container-width); margin: 0 auto; border-top: 1px solid #333; padding-top: 2rem; text-align: center; font-size: 0.8rem; }
-        #toast { visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center; border-radius: 4px; padding: 16px; position: fixed; z-index: 4000; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 0.9rem; box-shadow: 0 4px 12px rgba(0,0,0,0.2); opacity: 0; transition: opacity 0.3s, bottom 0.3s; }
-        #toast.show { visibility: visible; opacity: 1; bottom: 50px; }
-        #scrollTopBtn { display: none; position: fixed; bottom: 30px; right: 30px; z-index: 999; border: none; outline: none; background-color: var(--color-brand-main); color: white; cursor: pointer; padding: 12px; border-radius: 50%; font-size: 18px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: background-color 0.3s, transform 0.3s; }
-        #scrollTopBtn:hover { background-color: var(--color-brand-dark); transform: translateY(-3px); }
-        @media (max-width: 768px) {
-            .nav-menu.active { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: var(--color-bg); padding: 2rem; border-bottom: 1px solid rgba(0,0,0,0.1); box-shadow: 0 10px 20px rgba(0,0,0,0.05); animation: slideDown 0.3s ease-out forwards; }
-            @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        }
     </style>
 </head>
 <body>
@@ -280,23 +369,23 @@
     <!-- Header -->
     <header id="main-header">
         <div class="nav-container">
-            <button class="menu-toggle" aria-label="Toggle Menu">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            <button class="menu-toggle" aria-label="Menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
             </button>
-            <a href="#top" class="brand-logo">
-                <img src="https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/MORY%20LOGO-green.png" alt="MORY Logo">
+            <a href="#" class="brand-logo">
+                <img src="https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/MORY%20LOGO-green.png" alt="MORY">
             </a>
             <nav class="nav-menu" id="nav-menu">
-                <a href="#menu-section" class="nav-link">Menu</a>
-                <a href="#story-section" class="nav-link">Our Story</a>
-                <a href="#locations-section" class="nav-link">Locations</a>
+                <a href="#menu-section" class="active">Menu</a>
+                <a href="#story-section">Our Story</a>
+                <a href="#locations-section">Locations</a>
             </nav>
             <div class="nav-icons">
-                <button class="icon-btn" aria-label="Search" onclick="document.getElementById('search-input').focus()">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <button class="icon-btn" onclick="document.getElementById('search-input').focus()">
+                    <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                 </button>
-                <button class="icon-btn" aria-label="Cart" onclick="window.openCart()">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                <button class="icon-btn" onclick="window.openCart()" style="position: relative;">
+                    <svg viewBox="0 0 24 24" fill="none"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
                     <span class="cart-badge" id="cart-count">0</span>
                 </button>
             </div>
@@ -304,13 +393,11 @@
     </header>
 
     <!-- Hero -->
-    <section class="hero" id="top">
+    <section class="hero">
         <div class="hero-bg"></div>
-        <div class="hero-overlay"></div>
         <div class="hero-content">
-            <span class="uppercase" style="display:block; margin-bottom: 1rem; color: var(--color-brand-main);">Malaysia's Finest</span>
-            <h1>Elevate Your <br>Ritual</h1>
-            <p>Rich, vibrant matcha made to energize your day.</p>
+            <h1>Stay Mory</h1>
+            <p>keep it green</p>
             <a href="#menu-section" class="btn btn-brand">View Menu</a>
         </div>
     </section>
@@ -318,114 +405,100 @@
     <!-- Marquee -->
     <div class="marquee-bar">
         <div class="marquee-content">
-            <span>Stay connect on IG @moryofficial._</span>
-            <span>Choose. Fill. Enjoy. Mory Matcha.</span>
-            <span>Stay connect on IG @moryofficial._</span>
+            <span>Follow @moryofficial._ for updates</span>
+            <span>Order Easy. Sip Happy.</span>
+            <span>Follow @moryofficial._ for updates</span>
         </div>
     </div>
 
-    <!-- Menu / Products -->
-    <section id="menu-section" class="reveal">
+    <!-- Menu Section -->
+    <section id="menu-section">
         <div class="section-header">
-            <span class="uppercase">The Collection</span>
-            <h2>Our Signature Drinks</h2>
+            <span>Our Signature Drinks</span>
+            <h2>Explore The Menu</h2>
         </div>
+
         <div class="search-container">
-            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input type="text" id="search-input" class="search-input" placeholder="Search for your favorite drink..." onkeyup="window.filterDrinks()">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="search-input" class="search-input" placeholder="Search drinks (e.g. Mango, Latte)..." onkeyup="window.filterDrinks()">
         </div>
+
         <div class="grid-drinks" id="drinks-grid">
             <!-- Drink 1 -->
-            <div class="drink-card reveal" data-name="strawberry" onclick="window.openModal('strawberry')">
-                <div class="drink-img">
+            <div class="drink-card" onclick="window.openModal('strawberry')">
+                <div class="drink-img-container">
                     <span class="drink-tag">Popular</span>
-                    <img src="https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Strawberry%20Matcha.jpg" alt="Strawberry Matcha">
+                    <img class="drink-img" src="https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Strawberry%20Matcha.jpg" alt="Strawberry Matcha">
                 </div>
-                <div class="drink-info">
-                    <h3>Strawberry Matcha</h3>
-                    <div class="price">RM12</div>
-                    <p class="drink-desc-preview">Fresh strawberries blended with premium ceremonial matcha.</p>
-                    <div class="tap-hint">Add to Cart</div>
+                <div class="drink-content">
+                    <div class="drink-info">
+                        <h3>Strawberry Matcha</h3>
+                        <div class="drink-price">RM12</div>
+                        <p class="drink-desc">Fresh strawberries blended with premium ceremonial matcha.</p>
+                    </div>
+                    <button class="add-to-cart-btn">Add to Cart</button>
                 </div>
             </div>
             <!-- Drink 2 -->
-            <div class="drink-card reveal" data-name="blueberry" onclick="window.openModal('blueberry')">
-                <div class="drink-img">
-                    <img src="https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Blueberry%20Matcha.jpg" alt="Blueberry Matcha">
+            <div class="drink-card" onclick="window.openModal('blueberry')">
+                <div class="drink-img-container">
+                    <img class="drink-img" src="https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Blueberry%20Matcha.jpg" alt="Blueberry Matcha">
                 </div>
-                <div class="drink-info">
-                    <h3>Blueberry Matcha</h3>
-                    <div class="price">RM14</div>
-                    <p class="drink-desc-preview">A tart and sweet fusion of wild blueberries and earthy matcha.</p>
-                    <div class="tap-hint">Add to Cart</div>
+                <div class="drink-content">
+                    <div class="drink-info">
+                        <h3>Blueberry Matcha</h3>
+                        <div class="drink-price">RM14</div>
+                        <p class="drink-desc">A tart and sweet fusion of wild blueberries.</p>
+                    </div>
+                    <button class="add-to-cart-btn">Add to Cart</button>
                 </div>
             </div>
             <!-- Drink 3 -->
-            <div class="drink-card reveal" data-name="latte matcha" onclick="window.openModal('latte')">
-                <div class="drink-img">
+            <div class="drink-card" onclick="window.openModal('latte')">
+                <div class="drink-img-container">
                     <span class="drink-tag">Classic</span>
-                    <img src="https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Matcha%20Latte.jpg" alt="Matcha Latte">
+                    <img class="drink-img" src="https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Matcha%20Latte.jpg" alt="Matcha Latte">
                 </div>
-                <div class="drink-info">
-                    <h3>Matcha Latte</h3>
-                    <div class="price">RM10</div>
-                    <p class="drink-desc-preview">Smooth and creamy matcha whisked with your choice of milk.</p>
-                    <div class="tap-hint">Add to Cart</div>
+                <div class="drink-content">
+                    <div class="drink-info">
+                        <h3>Matcha Latte</h3>
+                        <div class="drink-price">RM10</div>
+                        <p class="drink-desc">Smooth and creamy matcha whisked with oat milk.</p>
+                    </div>
+                    <button class="add-to-cart-btn">Add to Cart</button>
                 </div>
             </div>
             <!-- Drink 4 -->
-            <div class="drink-card reveal" data-name="mango" onclick="window.openModal('mango')">
-                <div class="drink-img">
+            <div class="drink-card" onclick="window.openModal('mango')">
+                <div class="drink-img-container">
                     <span class="drink-tag">Seasonal</span>
-                    <img src="https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Mango%20Matcha.jpg" alt="Mango Matcha">
+                    <img class="drink-img" src="https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Mango%20Matcha.jpg" alt="Mango Matcha">
                 </div>
-                <div class="drink-info">
-                    <h3>Mango Matcha</h3>
-                    <div class="price">RM14</div>
-                    <p class="drink-desc-preview">Tropical mango puree layered over our signature matcha blend.</p>
-                    <div class="tap-hint">Add to Cart</div>
+                <div class="drink-content">
+                    <div class="drink-info">
+                        <h3>Mango Matcha</h3>
+                        <div class="drink-price">RM14</div>
+                        <p class="drink-desc">Tropical mango puree layered over matcha blend.</p>
+                    </div>
+                    <button class="add-to-cart-btn">Add to Cart</button>
                 </div>
             </div>
-            <!-- No Results Message -->
+            
             <div id="no-results" class="no-results">
-                <svg style="width:40px;height:40px;margin-bottom:10px;color:#ddd;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                 <h3>No drinks found</h3>
-                <p>Try searching for "Matcha" or "Mango"</p>
+                <p>Try searching for "Mango" or "Latte"</p>
             </div>
         </div>
     </section>
 
-    <!-- About Section -->
-    <section id="story-section" class="reveal">
-        <div class="story-img"></div>
-        <div class="story-text">
-            <span class="uppercase" style="color: var(--color-brand-main);">Our Philosophy</span>
-            <h2>Rooted in Mindful Living</h2>
-            <p>MORY is a modern matcha brand that blends tradition with lifestyle. We craft rich, vibrant matcha made to energize your day, calm your mind, and elevate every sip. Pure, versatile, and rooted in mindful living.</p>
-            <a href="#locations-section" class="btn">Visit Us</a>
-        </div>
-    </section>
-
-    <!-- Location / Info Teaser -->
-    <section id="locations-section" class="reveal">
-        <div class="info-grid">
-            <div class="info-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                <h4>Visit Us</h4>
-                <p style="margin:0; font-size: 0.9rem;">123 Jalan Ampang<br>Kuala Lumpur, Malaysia</p>
-                <button class="btn" style="margin-top:1rem; padding: 8px 20px; font-size: 0.7rem;" onclick="window.open('https://maps.google.com')">Get Directions</button>
-            </div>
-            <div class="info-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                <h4>Opening Hours</h4>
-                <p style="margin:0; font-size: 0.9rem;">Mon - Fri: 10am - 9pm<br>Sat - Sun: 9am - 10pm</p>
-            </div>
-            <div class="info-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                <h4>Contact</h4>
-                <p style="margin:0; font-size: 0.9rem;">hello@mory.com.my<br>+60 12 345 6789</p>
-                <button class="btn" style="margin-top:1rem; padding: 8px 20px; font-size: 0.7rem;" onclick="window.location.href='mailto:hello@mory.com.my'">Email Us</button>
-            </div>
+    <!-- About & Location -->
+    <section id="story-section" style="padding: 80px 24px; background: #fff;">
+        <div style="max-width: 900px; margin: 0 auto; text-align: center;">
+            <h2 style="margin-bottom: 1.5rem;">Rooted in Mindful Living</h2>
+            <p style="max-width: 600px; margin: 0 auto; font-size: 1.1rem; color: #555;">
+                MORY is a modern matcha brand that blends tradition with lifestyle. We craft rich, vibrant matcha made to energize your day, calm your mind, and elevate every sip. Pure, versatile, and rooted in mindful living.
+            </p>
+            <button class="btn btn-outline" onclick="window.open('https://maps.google.com')">Visit Us</button>
         </div>
     </section>
 
@@ -434,64 +507,54 @@
         <div class="footer-content">
             <div class="footer-col">
                 <h4>Shop Mory</h4>
-                <ul>
-                    <li><a href="#menu-section">Matcha Drinks</a></li>
-                    <li><a href="#menu-section">Fruit Series</a></li>
-                    <li><a href="#">Merchandise</a></li>
-                    <li><a href="#">Gift Cards</a></li>
-                </ul>
+                <a href="#menu-section">Matcha Drinks</a>
+                <a href="#menu-section">Coming Soon</a>
+                <a href="#">Coming Soon</a>
             </div>
             <div class="footer-col">
-                <h4>Company</h4>
-                <ul>
-                    <li><a href="#story-section">About Us</a></li>
-                    <li><a href="#">Careers</a></li>
-                    <li><a href="#">Sustainability</a></li>
-                </ul>
+                <h4>Support</h4>
+                <a href="#">Contact Us</a>
+                <a href="#">Order Now</a>
+                <a href="#">Coming Soon</a>
             </div>
             <div class="footer-col">
-                <h4>Stay in loop</h4>
-                <p style="font-size: 0.85rem; margin-bottom: 1rem;">Join Mory club for new drops and matcha tips.</p>
-                <form id="newsletter-form">
-                    <input type="email" placeholder="Email Address" class="newsletter-input" required>
-                    <button type="submit" class="btn btn-brand" style="width: 100%; border:none;">Subscribe</button>
-                    <div class="newsletter-success" id="newsletter-success">Thanks for subscribing! 🍵</div>
-                </form>
+                <h4>Stay Connected</h4>
+                <p style="font-size: 0.85rem; margin-bottom: 1rem; color: #666;">Join our club for drops and tips.</p>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-sm btn-brand" style="border-radius: 8px;">Instagram</button>
+                </div>
             </div>
         </div>
         <div class="copyright">
-            &copy; 2025 MORY. All rights reserved. Led by DDNetwork One. 
+            &copy; 2025 MORY. All rights reserved. Led by DDNetwork One.
         </div>
     </footer>
 
-    <!-- Back to Top Button -->
+    <!-- Back to Top -->
     <button onclick="topFunction()" id="scrollTopBtn" title="Go to top">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
     </button>
 
-    <!-- Product Detail Modal -->
+    <!-- Product Modal -->
     <div id="product-modal" class="modal">
         <div class="modal-content">
-            <div class="modal-img-container" onclick="window.zoomImage()">
+            <div class="modal-img-wrapper" onclick="window.zoomImage()">
                 <img id="modal-img" src="" alt="">
-                <div class="zoom-hint">🔍 Click to Zoom</div>
             </div>
-            <div class="modal-body">
+            <div class="modal-details">
                 <button class="close-modal" onclick="window.closeModal()">&times;</button>
                 <span class="uppercase" id="modal-tag" style="color: var(--color-brand-main); margin-bottom: 0.5rem; display: block;">Drink</span>
-                <h2 id="modal-title" style="font-size: 2rem;">Drink Title</h2>
-                <h3 id="modal-price" style="color: var(--color-brand-main); margin-bottom: 1.5rem; font-size: 1.5rem;">RM00</h3>
-                <p id="modal-desc" style="color: #444; line-height: 1.7; font-size: 1rem;">Description goes here.</p>
+                <h2 id="modal-title" style="font-size: 2rem; margin-bottom: 0.5rem;">Drink Title</h2>
+                <h3 id="modal-price" style="color: var(--color-brand-main); margin-bottom: 1.5rem; font-size: 1.8rem;">RM00</h3>
+                <p id="modal-desc" style="color: #666; line-height: 1.6; font-size: 1rem;">Description goes here.</p>
                 
-                <!-- Quantity Selector -->
                 <div style="margin-top: auto;">
-                    <div class="qty-control">
+                    <div class="qty-wrapper">
                         <button class="qty-btn" onclick="window.changeModalQty(-1)">-</button>
-                        <span class="qty-val" id="modal-qty">1</span>
+                        <span class="qty-display" id="modal-qty">1</span>
                         <button class="qty-btn" onclick="window.changeModalQty(1)">+</button>
                     </div>
-                    <br>
-                    <button class="btn btn-brand btn-full" onclick="window.addToCartFromModal()">Add to Cart</button>
+                    <button class="btn btn-brand btn-full" style="margin-top: 1.5rem;" onclick="window.addToCartFromModal()">Add to Cart</button>
                 </div>
             </div>
         </div>
@@ -499,59 +562,80 @@
 
     <!-- Cart Modal -->
     <div id="cart-modal" class="modal">
-        <div class="modal-content" style="max-width: 900px; padding: 0; overflow: hidden;">
-            <div class="cart-layout">
-                <!-- Left: Items List -->
-                <div class="cart-items-col">
-                    <button class="close-modal" onclick="window.closeCart()">&times;</button>
-                    <h2 style="margin-bottom: 1.5rem; font-size: 1.8rem;">Your Cart</h2>
-                    <div id="cart-items-container">
-                        <!-- Items injected via JS -->
-                        <div class="empty-cart-msg">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-                            <p>Your cart is empty.</p>
-                        </div>
+        <div class="modal-content" style="flex-direction: row;">
+            <!-- Items Column -->
+            <div class="cart-items-col">
+                <button class="close-modal" onclick="window.closeCart()">&times;</button>
+                <h2 style="margin-bottom: 2rem;">Your Cart</h2>
+                <div id="cart-items-container">
+                    <div class="empty-cart">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                        <p>Your cart is empty.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary & Checkout Column -->
+            <div class="cart-summary-col">
+                <h3 style="margin-bottom: 1.5rem;">Order Summary</h3>
+                
+                <!-- DELIVERY TOGGLE -->
+                <div class="form-label">Order Type</div>
+                <div class="delivery-toggle">
+                    <div class="toggle-option active" id="opt-pickup" onclick="window.selectOrderType('pickup')">
+                        <span>🛒</span> Pick Up
+                    </div>
+                    <div class="toggle-option" id="opt-delivery" onclick="window.selectOrderType('delivery')">
+                        <span>🛵</span> Delivery
                     </div>
                 </div>
 
-                <!-- Right: Summary & Checkout -->
-                <div class="cart-summary-col">
-                    <h3>Order Summary</h3>
-                    <div class="cart-total-row">
-                        <span>Total</span>
-                        <span class="cart-total-amount" id="cart-total">RM0</span>
+                <!-- FORMS -->
+                <div id="checkout-form-container" class="hidden">
+                    <div class="form-group">
+                        <label class="form-label">Name *</label>
+                        <input type="text" id="cart-name" class="form-input" placeholder="Your Name">
                     </div>
-
-                    <div id="checkout-form-container" class="cart-checkout-form" style="display:none;">
-                        <input type="text" id="cart-name" placeholder="Your Name *" class="form-input">
-                        <input type="tel" id="cart-phone" placeholder="Phone Number *" class="form-input">
-                        <button class="btn btn-brand btn-full" onclick="window.submitCartOrder()">Checkout via WhatsApp</button>
+                    <div class="form-group">
+                        <label class="form-label">Phone *</label>
+                        <input type="tel" id="cart-phone" class="form-input" placeholder="0123456789">
                     </div>
-                    
-                    <button id="btn-start-checkout" class="btn btn-full" style="margin-top: 1rem;" onclick="window.showCheckoutForm()">Proceed to Checkout</button>
+                    <!-- Address Field (Hidden by default) -->
+                    <div class="form-group hidden" id="address-group">
+                        <label class="form-label">Delivery Address *</label>
+                        <input type="text" id="cart-address" class="form-input" placeholder="Unit, Street, Area...">
+                    </div>
                 </div>
+
+                <div class="cart-total">
+                    <span style="font-weight: 600; color: #888;">Total</span>
+                    <span class="total-amount" id="cart-total">RM0</span>
+                </div>
+
+                <button id="btn-checkout-start" class="btn btn-brand btn-full" style="margin-top: 1.5rem;" onclick="window.showCheckoutForm()">Proceed to Checkout</button>
+                <button id="btn-submit-order" class="btn btn-brand btn-full hidden" style="margin-top: 1.5rem;" onclick="window.submitCartOrder()">Send Order via WhatsApp</button>
             </div>
         </div>
     </div>
 
-    <!-- Image Zoom Overlay -->
+    <!-- Zoom Overlay -->
     <div id="zoom-overlay">
         <div class="close-zoom" onclick="window.closeZoom()">&times;</div>
         <img id="zoomed-img" src="" alt="">
     </div>
 
-    <!-- Toast Notification -->
-    <div id="toast">Message here</div>
-
-    <!-- HIDDEN LINK FOR WHATSAPP -->
+    <!-- Hidden WhatsApp Link -->
     <a id="wa-link" href="" target="_blank" style="display:none;"></a>
 
-    <!-- JS Logic -->
+    <!-- JS -->
     <script>
-        // --- CONFIGURATION ---
         const WA_NUMBER = "60122600969";
+        let cart = JSON.parse(localStorage.getItem('mory_cart')) || [];
+        let currentModalProductKey = null;
+        let currentModalQty = 1;
+        let selectedOrderType = 'pickup'; // 'pickup' or 'delivery'
 
-        // --- DATA (Global) ---
+        // Products Data
         window.products = {
             'strawberry': { title: 'Strawberry Matcha', price: 12, img: 'https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Strawberry%20Matcha.jpg', tag: 'Popular', desc: 'Fresh strawberries blended with premium ceremonial matcha. A perfect balance of sweet berry notes and earthy green tea.' },
             'blueberry': { title: 'Blueberry Matcha', price: 14, img: 'https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Blueberry%20Matcha.jpg', tag: 'Rich', desc: 'A tart and sweet fusion of wild blueberries and earthy matcha. Our blueberries are slow-cooked to release their natural sugars.' },
@@ -559,58 +643,36 @@
             'mango': { title: 'Mango Matcha', price: 14, img: 'https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Mango%20Matcha.jpg', tag: 'Seasonal', desc: 'Tropical mango puree layered over our signature matcha blend. Made with Alphonso mangoes for richest flavor.' }
         };
 
-        // --- STATE (Persisted) ---
-        let cart = JSON.parse(localStorage.getItem('mory_cart')) || [];
-        let currentModalProductKey = null;
-        let currentModalQty = 1;
-
-        // --- DOM ELEMENTS ---
-        const productModal = document.getElementById("product-modal");
-        const cartModal = document.getElementById("cart-modal");
-        const cartBadge = document.getElementById("cart-count");
-        const cartItemsContainer = document.getElementById("cart-items-container");
-        const cartTotalEl = document.getElementById("cart-total");
-        const checkoutForm = document.getElementById("checkout-form-container");
-        const btnStartCheckout = document.getElementById("btn-start-checkout");
-        const modalQtyEl = document.getElementById("modal-qty");
-
-        // --- 1. MODAL FUNCTIONS ---
+        // --- Modal Functions ---
         window.openModal = function(key) {
             const product = window.products[key];
             if (!product) return;
-            
             currentModalProductKey = key;
-            currentModalQty = 1; // Reset qty
-            modalQtyEl.textContent = currentModalQty;
-
+            currentModalQty = 1;
+            document.getElementById("modal-qty").textContent = 1;
             document.getElementById("modal-img").src = product.img;
             document.getElementById("modal-title").textContent = product.title;
             document.getElementById("modal-price").textContent = "RM" + product.price;
             document.getElementById("modal-desc").textContent = product.desc;
             document.getElementById("modal-tag").textContent = product.tag;
-
-            productModal.classList.add('show');
+            document.getElementById("product-modal").classList.add('show');
             document.body.style.overflow = 'hidden';
         };
 
         window.closeModal = function() {
-            productModal.classList.remove('show');
+            document.getElementById("product-modal").classList.remove('show');
             document.body.style.overflow = 'auto';
         };
 
-        // Quantity Controls in Modal
         window.changeModalQty = function(change) {
-            const newQty = currentModalQty + change;
-            if(newQty >= 1) {
-                currentModalQty = newQty;
-                modalQtyEl.textContent = currentModalQty;
+            if(currentModalQty + change > 0) {
+                currentModalQty += change;
+                document.getElementById("modal-qty").textContent = currentModalQty;
             }
         };
 
-        // Image Zoom
         window.zoomImage = function() {
-            const src = document.getElementById("modal-img").src;
-            document.getElementById("zoomed-img").src = src;
+            document.getElementById("zoomed-img").src = document.getElementById("modal-img").src;
             document.getElementById("zoom-overlay").style.display = "flex";
         };
 
@@ -618,135 +680,157 @@
             document.getElementById("zoom-overlay").style.display = "none";
         };
 
-        // --- 2. CART LOGIC (With LocalStorage) ---
+        // --- Cart Functions ---
         window.saveCart = function() {
             localStorage.setItem('mory_cart', JSON.stringify(cart));
+            window.updateCartBadge();
         };
 
         window.addToCartFromModal = function() {
             const product = window.products[currentModalProductKey];
-            if(product) {
-                const existing = cart.find(item => item.key === currentModalProductKey);
-                if(existing) {
-                    existing.qty += currentModalQty;
-                } else {
-                    cart.push({
-                        key: currentModalProductKey,
-                        title: product.title,
-                        price: product.price,
-                        img: product.img,
-                        qty: currentModalQty
-                    });
-                }
-                window.saveCart();
-                window.updateCartUI();
-                window.closeModal();
-                window.showToast(`Added ${currentModalQty}x to Cart! 🍵`);
+            const existing = cart.find(item => item.key === currentModalProductKey);
+            if(existing) {
+                existing.qty += currentModalQty;
+            } else {
+                cart.push({
+                    key: currentModalProductKey,
+                    title: product.title,
+                    price: product.price,
+                    img: product.img,
+                    qty: currentModalQty
+                });
             }
+            window.saveCart();
+            window.closeModal();
+            window.showToast("Added to Cart!");
         };
 
         window.openCart = function() {
             window.renderCartItems();
-            cartModal.classList.add('show');
+            document.getElementById("cart-modal").classList.add('show');
             document.body.style.overflow = 'hidden';
-            checkoutForm.style.display = 'none';
-            btnStartCheckout.style.display = 'inline-block';
+            // Reset form view
+            document.getElementById("checkout-form-container").classList.add('hidden');
+            document.getElementById("btn-checkout-start").classList.remove('hidden');
+            document.getElementById("btn-submit-order").classList.add('hidden');
         };
 
         window.closeCart = function() {
-            cartModal.classList.remove('show');
+            document.getElementById("cart-modal").classList.remove('show');
             document.body.style.overflow = 'auto';
         };
 
-        window.updateCartUI = function() {
+        window.updateCartBadge = function() {
             const totalQty = cart.reduce((acc, item) => acc + item.qty, 0);
-            cartBadge.textContent = totalQty;
-            if(totalQty > 0) {
-                cartBadge.classList.add('visible');
-            } else {
-                cartBadge.classList.remove('visible');
-            }
+            const badge = document.getElementById("cart-count");
+            badge.textContent = totalQty;
+            badge.classList.toggle('visible', totalQty > 0);
         };
 
         window.renderCartItems = function() {
-            cartItemsContainer.innerHTML = '';
+            const container = document.getElementById("cart-items-container");
+            container.innerHTML = '';
             let totalPrice = 0;
 
             if(cart.length === 0) {
-                cartItemsContainer.innerHTML = `
-                    <div class="empty-cart-msg">
+                container.innerHTML = `
+                    <div class="empty-cart">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
                         <p>Your cart is empty.</p>
                     </div>`;
-                cartTotalEl.textContent = "RM0";
-                btnStartCheckout.disabled = true;
-                btnStartCheckout.style.opacity = "0.5";
+                document.getElementById("cart-total").textContent = "RM0";
+                document.getElementById("btn-checkout-start").disabled = true;
+                document.getElementById("btn-checkout-start").style.opacity = "0.5";
                 return;
             }
 
-            btnStartCheckout.disabled = false;
-            btnStartCheckout.style.opacity = "1";
+            document.getElementById("btn-checkout-start").disabled = false;
+            document.getElementById("btn-checkout-start").style.opacity = "1";
 
             cart.forEach((item, index) => {
                 totalPrice += item.price * item.qty;
-                
-                const itemEl = document.createElement('div');
-                itemEl.className = 'cart-item';
-                itemEl.innerHTML = `
+                const el = document.createElement('div');
+                el.className = 'cart-item';
+                el.innerHTML = `
                     <img src="${item.img}" class="cart-item-img" alt="${item.title}">
-                    <div class="cart-item-details">
+                    <div class="cart-item-info">
                         <div class="cart-item-title">${item.title}</div>
-                        <div class="cart-item-price">RM${item.price} x ${item.qty}</div>
-                        <div class="cart-qty-control">
-                            <button class="mini-btn" onclick="window.updateCartQty(${index}, -1)">-</button>
-                            <span style="font-size:0.8rem">${item.qty}</span>
-                            <button class="mini-btn" onclick="window.updateCartQty(${index}, 1)">+</button>
+                        <div class="cart-item-meta">RM${item.price} x ${item.qty}</div>
+                        <div class="cart-mini-qty">
+                            <button class="mini-qty-btn" onclick="window.updateCartQty(${index}, -1)">-</button>
+                            <span>${item.qty}</span>
+                            <button class="mini-qty-btn" onclick="window.updateCartQty(${index}, 1)">+</button>
                         </div>
                     </div>
-                    <button class="btn btn-sm btn-danger" onclick="window.removeFromCart(${index})" style="padding: 6px 10px;">Remove</button>
+                    <button class="btn btn-sm btn-danger" style="margin-left:auto;" onclick="window.removeFromCart(${index})">Remove</button>
                 `;
-                cartItemsContainer.appendChild(itemEl);
+                container.appendChild(el);
             });
-
-            cartTotalEl.textContent = "RM" + totalPrice;
+            document.getElementById("cart-total").textContent = "RM" + totalPrice;
         };
 
         window.updateCartQty = function(index, change) {
             const item = cart[index];
-            const newQty = item.qty + change;
-            if(newQty < 1) return; // Minimum 1
-            item.qty = newQty;
-            window.saveCart();
-            window.renderCartItems();
+            if(item.qty + change > 0) {
+                item.qty += change;
+                window.saveCart();
+                window.renderCartItems();
+            }
         };
 
         window.removeFromCart = function(index) {
             cart.splice(index, 1);
             window.saveCart();
             window.renderCartItems();
-            window.updateCartUI();
+        };
+
+        // --- Checkout Logic ---
+        window.selectOrderType = function(type) {
+            selectedOrderType = type;
+            
+            // Update Toggle UI
+            document.getElementById('opt-pickup').classList.toggle('active', type === 'pickup');
+            document.getElementById('opt-delivery').classList.toggle('active', type === 'delivery');
+
+            // Toggle Address Input visibility
+            const addressGroup = document.getElementById("address-group");
+            if(type === 'delivery') {
+                addressGroup.classList.remove('hidden');
+            } else {
+                addressGroup.classList.add('hidden');
+            }
         };
 
         window.showCheckoutForm = function() {
-            btnStartCheckout.style.display = 'none';
-            checkoutForm.style.display = 'flex';
-            if(window.innerWidth < 768) {
-                const col = document.querySelector('.cart-summary-col');
-                col.scrollIntoView({behavior: 'smooth'});
-            }
+            document.getElementById("checkout-form-container").classList.remove('hidden');
+            document.getElementById("btn-checkout-start").classList.add('hidden');
+            document.getElementById("btn-submit-order").classList.remove('hidden');
         };
 
-        // --- 3. WHATSAPP ---
         window.submitCartOrder = function() {
-            const name = document.getElementById('cart-name').value.trim();
-            const phone = document.getElementById('cart-phone').value.trim();
+            const name = document.getElementById("cart-name").value.trim();
+            const phone = document.getElementById("cart-phone").value.trim();
+            const address = document.getElementById("cart-address").value.trim();
 
+            // Validation
             if(!name || !phone) {
-                window.showToast("Please fill in Name and Phone.");
+                window.showToast("Please enter Name and Phone.");
                 return;
             }
 
-            let message = `*NEW ORDER FROM MORY WEBSITE*%0A%0A*Order Details:*%0A`;
+            if(selectedOrderType === 'delivery' && !address) {
+                window.showToast("Please enter Delivery Address.");
+                return;
+            }
+
+            // Build Message
+            let message = `*NEW ORDER FROM MORY WEBSITE*%0A%0A`;
+            message += `*Order Type:* ${selectedOrderType === 'delivery' ? 'Delivery 🛵' : 'Pick Up 🛒'}%0A`;
+            if(selectedOrderType === 'delivery') {
+                message += `*Address:* ${address}%0A`;
+            }
+            message += `%0A*Order Details:*%0A`;
+            
             let totalPrice = 0;
             cart.forEach(item => {
                 const lineTotal = item.price * item.qty;
@@ -754,161 +838,76 @@
                 message += `- ${item.title} (x${item.qty}): RM${lineTotal}%0A`;
             });
 
-            message += `%0A*Total Price: RM${totalPrice}*%0A%0A*Customer Info:*%0A`;
-            message += `Name: ${name}%0APhone: ${phone}%0AThank you!`;
+            message += `%0A*Total Price: RM${totalPrice}*%0A%0A`;
+            message += `*Customer Info:*%0A`;
+            message += `Name: ${name}%0A`;
+            message += `Phone: ${phone}%0A`;
+            message += `Thank you!`;
 
             const url = `https://wa.me/${WA_NUMBER}?text=${message}`;
-            const waLink = document.getElementById('wa-link');
-            waLink.href = url;
-            waLink.click();
+            document.getElementById('wa-link').href = url;
+            document.getElementById('wa-link').click();
 
+            // Clear and Close
             cart = [];
             window.saveCart();
-            window.updateCartUI();
             window.closeCart();
         };
 
-        // --- 4. SEARCH ---
+        // --- Utilities ---
         window.filterDrinks = function() {
-            const input = document.getElementById('search-input');
-            const filter = input.value.toLowerCase();
-            const grid = document.getElementById('drinks-grid');
-            const cards = grid.getElementsByClassName('drink-card');
-            const noResults = document.getElementById('no-results');
-            let hasResults = false;
+            const filter = document.getElementById('search-input').value.toLowerCase();
+            const cards = document.getElementsByClassName('drink-card');
+            let hasResult = false;
 
-            for (let i = 0; i < cards.length; i++) {
+            for(let i=0; i<cards.length; i++) {
                 const title = cards[i].querySelector("h3").textContent;
-                const dataName = cards[i].getAttribute("data-name");
-                
-                if (title.toLowerCase().indexOf(filter) > -1 || dataName.toLowerCase().indexOf(filter) > -1) {
-                    cards[i].style.display = "";
-                    hasResults = true;
+                if(title.toLowerCase().includes(filter)) {
+                    cards[i].style.display = "flex";
+                    hasResult = true;
                 } else {
                     cards[i].style.display = "none";
                 }
             }
-            noResults.style.display = hasResults ? "none" : "block";
+            document.getElementById('no-results').style.display = hasResult ? "none" : "block";
         };
 
-        // --- 5. UI UTILS ---
-        window.showToast = function(message) {
+        window.showToast = function(msg) {
             const toast = document.getElementById("toast");
-            toast.textContent = message;
+            toast.textContent = msg;
             toast.className = "show";
-            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+            setTimeout(() => toast.className = "", 3000);
         };
 
+        // --- Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
-            // Init UI
-            window.updateCartUI();
+            window.updateCartBadge();
             
-            // Mobile Menu
+            // Toggle Mobile Menu
             const toggle = document.querySelector('.menu-toggle');
             const nav = document.querySelector('.nav-menu');
-            if(toggle) {
-                toggle.addEventListener('click', () => {
-                    nav.classList.toggle('active');
-                });
-            }
-
-            // Smooth Scroll
-            const links = document.querySelectorAll('a[href^="#"]');
-            links.forEach(link => {
-                link.addEventListener('click', function (e) {
-                    if(this.getAttribute('onclick')) return;
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href').substring(1);
-                    const targetElement = document.getElementById(targetId);
-
-                    if (targetElement) {
-                        nav.classList.remove('active');
-                        const headerOffset = 85; 
-                        const elementPosition = targetElement.getBoundingClientRect().top;
-                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-                        window.scrollTo({
-                            top: offsetPosition,
-                            behavior: "smooth"
-                        });
-                    }
-                });
-            });
-
-            // Scroll Reveal
-            const reveals = document.querySelectorAll('.reveal');
-            const revealOnScroll = () => {
-                const windowHeight = window.innerHeight;
-                const elementVisible = 100;
-                reveals.forEach((reveal) => {
-                    const elementTop = reveal.getBoundingClientRect().top;
-                    if (elementTop < windowHeight - elementVisible) {
-                        reveal.classList.add('active');
-                    }
-                });
-            };
-            window.addEventListener('scroll', revealOnScroll);
-            revealOnScroll();
-
+            toggle.onclick = () => nav.classList.toggle('active');
+            
             // Scroll Spy
-            const sections = document.querySelectorAll("section");
-            const navLi = document.querySelectorAll(".nav-menu a");
-            window.addEventListener("scroll", () => {
-                let current = "";
-                sections.forEach((section) => {
-                    const sectionTop = section.offsetTop;
-                    if (window.scrollY >= (sectionTop - 150)) {
-                        current = section.getAttribute("id");
-                    }
-                });
-                navLi.forEach((li) => {
-                    li.classList.remove("active");
-                    if (li.getAttribute("href").includes(current)) {
-                        li.classList.add("active");
-                    }
-                });
-            });
+            window.onscroll = function() {
+                const btn = document.getElementById("scrollTopBtn");
+                const header = document.getElementById("main-header");
+                if(window.scrollY > 300) btn.style.display = "block"; else btn.style.display = "none";
+                if(window.scrollY > 20) header.classList.add('scrolled'); else header.classList.remove('scrolled');
+            };
+
+            function topFunction() { window.scrollTo({top:0, behavior:'smooth'}); }
+
+            // Modal Click Close
+            window.onclick = function(e) {
+                if(e.target.classList.contains('modal')) {
+                    document.querySelectorAll('.modal').forEach(m => {
+                        m.classList.remove('show');
+                        document.body.style.overflow = 'auto';
+                    });
+                }
+            };
         });
-
-        // Scroll Top & Header
-        const mybutton = document.getElementById("scrollTopBtn");
-        const header = document.getElementById('main-header');
-
-        window.onscroll = function() {
-            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-                mybutton.style.display = "block";
-            } else {
-                mybutton.style.display = "none";
-            }
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        }
-
-        function topFunction() {
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        }
-
-        // Newsletter
-        document.getElementById('newsletter-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const input = this.querySelector('input');
-            const successMsg = document.getElementById('newsletter-success');
-            const btn = this.querySelector('button');
-            if(input.value) {
-                input.style.display = 'none';
-                btn.style.display = 'none';
-                successMsg.style.display = 'block';
-            }
-        });
-
-        // Close Modals
-        window.onclick = function(event) {
-            if (event.target == productModal) window.closeModal();
-            if (event.target == cartModal) window.closeCart();
-        }
     </script>
 </body>
 </html>
