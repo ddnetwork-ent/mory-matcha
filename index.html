@@ -96,12 +96,17 @@
 
         .icon-btn { position: relative; padding: 10px; border-radius: 50%; display: flex; transition: background 0.2s; }
         .icon-btn:hover { background: rgba(0,0,0,0.04); }
+        
+        /* --- IMPROVED CART BADGE --- */
         .cart-badge {
             position: absolute; top: 0; right: 0; background: var(--color-brand-main); color: white;
             width: 18px; height: 18px; border-radius: 50%; font-size: 0.6rem; font-weight: 700;
             display: flex; align-items: center; justify-content: center;
-            transform: scale(0); transition: transform 0.3s var(--ease-elastic);
+            transform: scale(0); /* Start hidden */
+            transition: transform 0.3s var(--ease-elastic);
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 10;
+            pointer-events: none; /* Prevent clicking badge */
         }
         .cart-badge.visible { transform: scale(1); }
 
@@ -149,9 +154,10 @@
         }
         .map-placeholder {
             width: 100%; height: 250px; background: #e5e7eb;
-            background-image: url('https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Matcho.jpg');
+            /* UPDATED BACKGROUND IMAGE FOR MAP */
+            background-image: url('https://images.unsplash.com/photo-1524661135-9c2e2e9460493e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'); 
             background-size: cover; background-position: center;
-            opacity: 0.8;
+            opacity: 0.9;
             position: relative;
         }
         .map-overlay {
@@ -290,6 +296,7 @@
                 <button class="icon-btn" onclick="window.openCart()">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
                 </button>
+                <!-- Badge -->
                 <span class="cart-badge" id="cart-count">0</span>
             </div>
         </div>
@@ -335,18 +342,15 @@
                     <span class="uppercase">About Us</span>
                     <h2>Our Story</h2>
                 </div>
-                <div style="text-align:center; margin-bottom:3rem;">
-                    <img src="https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Matcho.jpg" alt="Mory Story" style="width:100%; max-width:500px; border-radius:20px; margin-bottom:2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-                </div>
-                <p class="section-text">
-                    MORY was born from a desire to slow down. In a world that never stops, we believe in the pause—the mindful moment between one task and the next. We source our matcha directly from Kyoto, ensuring that every cup carries the authentic taste of tradition. 
+                <div class="section-text" style="text-align:center; margin-top:0;">
+                    MORY was born from a desire to slow down. In a world that never stops, we believe in @pause—the mindful moment between one task and the next. We source our matcha directly from Kyoto, ensuring that every cup carries the authentic taste of tradition. 
                     <br><br>
                     Our blend is designed not just to energize, but to center you. Whether you are grabbing a latte on your commute or sitting down for a ceremonial bowl, MORY is your reminder to stay present, stay green, and stay Mory.
-                </p>
+                </div>
             </div>
         </section>
 
-        <!-- LOCATIONS SECTION (UPDATED ICON) -->
+        <!-- LOCATIONS SECTION -->
         <section id="locations-section">
             <div class="content-section">
                 <div class="section-header">
@@ -359,7 +363,6 @@
                         <!-- Map Visual -->
                         <div class="map-placeholder">
                             <div class="map-overlay">
-                                <!-- Updated with FontAwesome Icon -->
                                 <a href="https://maps.google.com" target="_blank" class="map-btn">
                                     <i class="fa-solid fa-location-dot" style="font-size: 1.1rem;"></i>
                                     <span>Open in Maps</span>
@@ -369,10 +372,10 @@
                         
                         <!-- Info -->
                         <div class="location-details">
-                            <h3>Flagship Store</h3>
+                            <h3>Our Store</h3>
                             <p>
-                                123 Matcha Lane, Bukit Bintang<br>
-                                50200 Kuala Lumpur, Malaysia
+                                123 Mory, Ipoh<br>
+                                30000 Ipoh, Malaysia
                             </p>
                             <div style="display:flex; justify-content:center; gap:10px;">
                                 <a href="https://wa.me/60123456789" class="btn btn-outline" style="width:auto;">Call Us</a>
@@ -384,9 +387,8 @@
             </div>
         </section>
         
-        <!-- FOOTER -->
         <footer style="text-align:center; padding:3rem 20px; margin-top:auto; background:white; border-top:1px solid var(--color-border);">
-            <p style="font-size:0.85rem; font-weight:600; color:#9CA3AF;">&copy; 2025 MORY. All rights reserved. Led by DDNetwork One Company.</p>
+            <p style="font-size:0.85rem; font-weight:600; color:#9CA3AF;">&copy; 2025 MORY. All rights reserved. Led by DDNetwork One.</p>
         </footer>
     </main>
 
@@ -403,6 +405,10 @@
         <div id="step-1" class="cart-step">
             <div class="cart-header">
                 <h2>Your Order</h2>
+                <!-- ADDED CLEAR BUTTON TO FIX "GHOST ITEMS" ISSUE -->
+                <button class="btn-danger" onclick="window.clearCart()" style="width:auto; font-size: 0.75rem; padding: 8px 16px;">
+                    <i class="fa-solid fa-trash-can" style="margin-right:6px;"></i>Clear Cart
+                </button>
                 <button onclick="window.closeCart()" style="padding:8px; border-radius:50%; background:#f3f4f6;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
             </div>
             
@@ -515,17 +521,33 @@
             'mango': { title: 'Mango Matcha', price: 14, img: 'https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Mango%20Matcha.jpg', desc: 'Tropical mango puree layered over matcha blend.' }
         };
 
-        let cart = JSON.parse(localStorage.getItem('mory_cart')) || [];
+        let cart = [];
         let pmKey = null; let pmQty = 1;
         let deliveryType = 'pickup';
 
         window.onload = () => {
-            updateBadge();
+            // Load cart from localStorage (Persistence)
+            try {
+                const stored = localStorage.getItem('mory_cart');
+                if (stored) {
+                    cart = JSON.parse(stored);
+                    // If storage is valid, use it (standard persistence)
+                } else {
+                    cart = []; // Start fresh if no storage exists
+                }
+            } catch (e) {
+                cart = []; // Fallback to empty on error
+                console.error("Cart load error", e);
+            }
+
             initHeroSlider();
             setTimeout(() => {
                 document.getElementById('skeleton-loader').style.display = 'none';
                 document.getElementById('main-content').style.opacity = '1';
                 renderDrinks();
+                // Force initial UI update (Badge/List)
+                updateBadge(); 
+                renderCartList();
             }, 800); 
         };
 
@@ -570,6 +592,53 @@
             }, 5000);
         }
 
+        // --- CLEAR CART FUNCTION (FIX FOR GHOST ITEMS) ---
+        function clearCart() {
+            if(confirm("Are you sure you want to clear the cart?")) {
+                cart = [];
+                saveCart(); // Updates localStorage and UI
+                backToStep1();
+                showToast("Cart Cleared");
+            }
+        }
+
+        // --- SAVE CART (ROBUST) ---
+        function saveCart() {
+            // 1. Save to LocalStorage (Persistence)
+            localStorage.setItem('mory_cart', JSON.stringify(cart));
+            
+            // 2. Call UI update functions
+            updateBadge(); 
+            renderCartList();
+        }
+
+        // --- UPDATE BADGE (ROBUST) ---
+        function updateBadge() {
+            const badgeEl = document.getElementById('cart-count');
+            if (!badgeEl) return;
+
+            // Calculate total safely
+            const total = cart.reduce((a, b) => {
+                const qty = parseInt(b.qty, 10);
+                return a + (isNaN(qty) ? 0 : qty);
+            }, 0);
+
+            // Update text content
+            badgeEl.textContent = total;
+
+            // Update Class and Transform explicitly
+            if (total > 0) {
+                badgeEl.classList.add('visible');
+                badgeEl.style.transform = 'scale(1)';
+            } else {
+                badgeEl.classList.remove('visible');
+                badgeEl.style.transform = 'scale(0)';
+            }
+
+            // Force Reflow (Magic fix for UI not updating)
+            badgeEl.offsetHeight; 
+        }
+
         function renderDrinks() {
             const grid = document.getElementById('drinks-grid');
             grid.style.display = 'grid';
@@ -612,24 +681,24 @@
             document.getElementById('zoom-preview').classList.remove('active');
         };
 
-        function saveCart() {
-            localStorage.setItem('mory_cart', JSON.stringify(cart));
-            updateBadge();
-            renderCartList();
-        }
-
-        function updateBadge() {
-            const total = cart.reduce((a, b) => a + b.qty, 0);
-            document.getElementById('cart-count').textContent = total;
-            document.getElementById('cart-count').classList.toggle('visible', total > 0);
-        }
-
+        // --- QUICK ADD (ROBUST) ---
         function quickAdd(key) {
+            // Safety Check
+            if (!products[key]) {
+                console.error("Product not found:", key);
+                return;
+            }
+
             const p = products[key];
             const ex = cart.find(i => i.key === key);
             if(ex) ex.qty++;
             else cart.push({ key, ...p, qty: 1 });
+            
+            // Explicitly force UI update
             saveCart();
+            
+            // Show success toast
+            showToast(`Added ${p.title}`);
         }
 
         function openCart() {
@@ -650,6 +719,8 @@
 
             if(cart.length === 0) {
                 list.innerHTML = `<div style="text-align:center; padding:3rem; display:flex; flex-direction:column; align-items:center; gap:1rem; opacity:0.5;"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><h3>Cart is empty</h3></div>`;
+                // Explicitly call updateBadge here just in case saveCart was skipped
+                updateBadge();
                 document.getElementById('cart-total-amount').textContent = 'RM0.00';
                 document.getElementById('final-total').textContent = 'RM0.00';
                 return;
@@ -761,13 +832,24 @@
             if(pmQty + d > 0) { pmQty += d; document.getElementById('pm-qty').textContent = pmQty; }
         }
 
+        // --- SAFE ADD FUNCTION ---
         function addFromPM() {
+            if (!products[pmKey]) {
+                console.error("Product not found in modal add:", pmKey);
+                return;
+            }
             const p = products[pmKey];
             const ex = cart.find(i => i.key === pmKey);
             if(ex) ex.qty += pmQty;
             else cart.push({ key: pmKey, ...p, qty: pmQty });
             saveCart();
             closePM();
+        }
+        
+        function showToast(m) {
+            const t = document.getElementById('toast');
+            t.textContent = m; t.className = "show";
+            setTimeout(() => t.className = "", 3000);
         }
     </script>
 </body>
