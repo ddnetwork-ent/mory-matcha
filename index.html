@@ -2,912 +2,717 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MORY</title>
     <style>
         /* --- Design Tokens --- */
         :root {
-            --color-brand-dark: #2F4F4F;
-            --color-brand-main: #5D8C71;      /* Matcha Green */
-            --color-brand-hover: #4a755e;
-            --color-brand-light: #E0F2E9;
-            --color-accent: #D4A373;
-            --color-bg: #F8F9FA;              /* Cleaner off-white */
-            --color-card-bg: #FFFFFF;
-            --color-text: #2C2C2C;
-            --color-text-light: #6c757d;
-            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
-            --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
-            --shadow-lg: 0 16px 40px rgba(0,0,0,0.12);
-            --radius-md: 16px;
-            --radius-lg: 24px;
-            --container-width: 1100px;
-            --spacing-section: 100px 24px;
+            --color-brand-dark: #111827;
+            --color-brand-main: #4A7359; /* Deeper green for better contrast */
+            --color-brand-light: #F0FDF4;
+            --color-bg: #F8F9FA;
+            --color-white: #FFFFFF;
+            --color-text: #1F2937;
+            --color-text-light: #9CA3AF;
+            --color-border: #E5E7EB;
+            
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            
+            /* Desktop Defaults */
             --header-height: 70px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --radius-full: 9999px;
+            
+            /* Easing */
+            --ease-elastic: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* --- Reset & Global --- */
+        /* --- Reset & Typography --- */
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
-        html { scroll-behavior: smooth; }
-
-        body {
-            font-family: var(--font-sans);
-            background-color: var(--color-bg);
-            color: var(--color-text);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
-        }
-
-        a { text-decoration: none; color: inherit; transition: color 0.3s ease; }
-        img { max-width: 100%; display: block; }
-        ul { list-style: none; }
-        button { font-family: inherit; cursor: pointer; border: none; }
-
-        /* --- Typography --- */
-        h1, h2, h3 { font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; }
-        .text-center { text-align: center; }
-        .uppercase { text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.75rem; font-weight: 600; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+        body { font-family: var(--font-sans); background: var(--color-bg); color: var(--color-text); line-height: 1.5; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
         
-        h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
-        h2 { font-size: 2rem; margin-bottom: 1.5rem; }
-        h3 { font-size: 1.25rem; margin-bottom: 0.5rem; }
-        p { color: var(--color-text-light); margin-bottom: 1rem; font-weight: 400; font-size: 0.95rem; }
+        a { text-decoration: none; color: inherit; }
+        img { max-width: 100%; display: block; object-fit: cover; }
+        button { font-family: inherit; cursor: pointer; border: none; background: none; -webkit-user-select: none; user-select: none; }
+        ul { list-style: none; }
 
-        @media (min-width: 768px) {
-            h1 { font-size: 4rem; }
-            h2 { font-size: 2.5rem; }
-        }
+        /* --- Scrollbar Polish (Desktop) --- */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #9CA3AF; }
 
-        /* --- Buttons (Modern) --- */
+        /* --- Text Styles --- */
+        h1, h2, h3 { font-weight: 800; line-height: 1.1; color: var(--color-brand-dark); letter-spacing: -0.02em; }
+        .uppercase { text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.65rem; font-weight: 700; color: var(--color-brand-main); margin-bottom: 0.25rem; display: block; }
+        
+        /* --- Buttons --- */
         .btn {
             display: inline-flex; align-items: center; justify-content: center;
-            padding: 12px 28px;
-            border-radius: 50px;
-            font-weight: 600;
-            letter-spacing: 0.03em;
+            padding: 14px 24px;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            font-size: 0.85rem;
             text-transform: uppercase;
-            font-size: 0.8rem;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            letter-spacing: 0.03em;
+            transition: transform 0.1s, box-shadow 0.2s, background 0.2s;
+            width: 100%;
             position: relative;
             overflow: hidden;
         }
+        /* Tactile Click */
+        .btn:active { transform: scale(0.94); } 
+        
+        .btn-brand { background: var(--color-brand-main); color: white; box-shadow: 0 4px 12px rgba(74, 115, 89, 0.25); }
+        .btn-brand:hover { background: #3E5F4A; box-shadow: 0 6px 16px rgba(74, 115, 89, 0.35); transform: translateY(-1px); }
+        .btn-outline { border: 1px solid var(--color-border); color: var(--color-text); background: var(--color-white); }
+        .btn-danger { background: #FEF2F2; color: #EF4444; padding: 6px 14px; font-size: 0.75rem; border-radius: 8px; width: auto; }
 
-        .btn-brand {
-            background-color: var(--color-brand-main);
-            color: white;
-            box-shadow: 0 4px 12px rgba(93, 140, 113, 0.3);
-        }
-
-        .btn-brand:hover {
-            background-color: var(--color-brand-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(93, 140, 113, 0.4);
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--color-text);
-            color: var(--color-text);
-        }
-        .btn-outline:hover {
-            background: var(--color-text);
-            color: white;
-        }
-
-        .btn-full { width: 100%; }
-        .btn-sm { padding: 8px 16px; font-size: 0.7rem; }
-        .btn-danger { background-color: #ff6b6b; color: white; }
-        .btn-danger:hover { background-color: #fa5252; }
-
-        /* --- Header --- */
+        /* --- Header (Glassmorphism) --- */
         header {
-            position: fixed;
-            top: 0; left: 0; width: 100%;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(16px);
+            position: fixed; top: 0; left: 0; width: 100%; height: var(--header-height);
+            background: rgba(255,255,255, 0.85); backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            z-index: 1000;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            transition: box-shadow 0.3s ease;
-        }
-        header.scrolled { box-shadow: var(--shadow-sm); padding-top: 0; }
-        
-        .nav-container { max-width: var(--container-width); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 24px; height: var(--header-height); transition: height 0.3s ease; }
-        
-        .brand-logo { display: flex; align-items: center; cursor: pointer; margin-right: auto; }
-        .brand-logo img { height: 45px; width: auto; object-fit: contain; }
-        
-        .nav-menu { display: none; }
-        .nav-menu a { font-size: 0.85rem; font-weight: 600; color: var(--color-text-light); margin: 0 10px; transition: 0.3s; }
-        .nav-menu a:hover, .nav-menu a.active { color: var(--color-brand-main); }
-        
-        .nav-icons { display: flex; gap: 1.2rem; align-items: center; }
-        .icon-btn { background: none; border: none; cursor: pointer; padding: 8px; border-radius: 50%; transition: background 0.2s; display: flex; align-items: center; justify-content: center; }
-        .icon-btn:hover { background: rgba(0,0,0,0.05); }
-        .icon-btn svg { width: 22px; height: 22px; stroke: var(--color-text); stroke-width: 2; }
-
-        .cart-badge {
-            position: absolute; top: 0; right: 0;
-            background: #ff4757; color: white;
-            font-size: 0.65rem; font-weight: 700;
-            width: 18px; height: 18px; border-radius: 50%;
+            z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.05);
             display: flex; align-items: center; justify-content: center;
-            transform: scale(0); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: transform 0.3s ease;
+        }
+        header.scrolled { transform: translateY(0); box-shadow: 0 4px 30px rgba(0,0,0,0.05); }
+        
+        .nav-container { width: 100%; max-width: 1200px; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
+        .brand-logo img { height: 38px; }
+        
+        .icon-btn { position: relative; padding: 10px; border-radius: 50%; display: flex; transition: background 0.2s; }
+        .icon-btn:hover { background: rgba(0,0,0,0.04); }
+        .cart-badge {
+            position: absolute; top: 0; right: 0; background: var(--color-brand-main); color: white;
+            width: 18px; height: 18px; border-radius: 50%; font-size: 0.6rem; font-weight: 700;
+            display: flex; align-items: center; justify-content: center;
+            transform: scale(0); transition: transform 0.3s var(--ease-elastic);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
         .cart-badge.visible { transform: scale(1); }
 
-        .menu-toggle { display: block; background: none; border: none; cursor: pointer; z-index: 1001; }
+        /* --- Hero Section (Dynamic Slider) --- */
+        .hero { position: relative; min-height: 75vh; display: flex; align-items: center; justify-content: center; background: #000; overflow: hidden; }
         
-        @media (min-width: 768px) {
-            .nav-menu { display: flex; align-items: center; }
-            .menu-toggle { display: none; }
-        }
-        @media (max-width: 768px) {
-            .nav-menu.active { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: white; padding: 1.5rem; border-bottom: 1px solid rgba(0,0,0,0.1); box-shadow: var(--shadow-md); animation: slideDown 0.3s ease-out; }
-            .nav-menu a { margin: 10px 0; font-size: 1rem; }
-        }
-
-        /* --- Hero --- */
-        .hero { position: relative; height: 85vh; display: flex; align-items: center; justify-content: center; overflow: hidden; background: #000; }
-        .hero-bg { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            background-image: url('https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Matcho.jpg'); 
-            background-size: cover; background-position: center; opacity: 0.6; 
-            animation: breathe 25s infinite alternate; transform: scale(1.1);
-        }
-        @keyframes breathe { from { transform: scale(1.1); } to { transform: scale(1.2); } }
+        /* Slideshow Container */
+        .hero-slider { position: absolute; inset: 0; z-index: 1; }
         
-        .hero-content { position: relative; z-index: 2; color: white; text-align: center; max-width: 600px; padding: 2rem; }
-        .hero-content h1 { margin-bottom: 1.5rem; text-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        .hero-content p { color: rgba(255,255,255,0.9); font-size: 1.1rem; margin-bottom: 2rem; text-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-
-        /* --- Marquee --- */
-        .marquee-bar { background-color: var(--color-brand-dark); color: white; overflow: hidden; padding: 10px 0; white-space: nowrap; }
-        .marquee-content { display: inline-block; animation: marquee 30s linear infinite; }
-        .marquee-content span { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; margin-right: 4rem; text-transform: uppercase; }
-        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
-        /* --- Search --- */
-        .search-container { max-width: 500px; margin: 0 auto 3rem auto; position: relative; }
-        .search-input { 
-            width: 100%; padding: 14px 20px 14px 50px; 
-            border-radius: 50px; border: 1px solid #e9ecef; 
-            background: white; box-shadow: var(--shadow-sm); 
-            font-size: 0.95rem; transition: all 0.3s; 
+        /* Individual Slide */
+        .hero-slide {
+            position: absolute; inset: 0;
+            background-size: cover; background-position: center;
+            opacity: 0; transition: opacity 1.5s ease-in-out;
+            transform: scale(1); transition: transform 6s linear;
         }
-        .search-input:focus { border-color: var(--color-brand-main); box-shadow: 0 0 0 4px rgba(93, 140, 113, 0.1); }
-        .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); width: 20px; stroke: #adb5bd; }
-        .no-results { grid-column: 1 / -1; text-align: center; padding: 3rem 1rem; color: #adb5bd; display: none; background: white; border-radius: 16px; }
-
-        /* --- Grid & Cards (Modern) --- */
-        #menu-section { padding: var(--spacing-section); max-width: var(--container-width); margin: 0 auto; }
-        .section-header { text-align: center; margin-bottom: 3rem; }
-        .section-header span { color: var(--color-brand-main); font-weight: 700; display: block; margin-bottom: 0.5rem; }
-
-        .grid-drinks { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 2rem; justify-items: center; }
         
-        .drink-card { 
-            background: var(--color-card-bg);
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            position: relative;
-            width: 100%;
-            max-width: 300px;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            cursor: pointer;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid rgba(0,0,0,0.03);
-            display: flex;
-            flex-direction: column;
+        /* Active Slide State */
+        .hero-slide.active {
+            opacity: 0.6; /* Dimmed for text readability */
+            transform: scale(1.1); /* Slow Zoom effect */
         }
 
-        .drink-card:hover { 
-            transform: translateY(-8px); 
-            box-shadow: var(--shadow-lg); 
-            border-color: transparent;
+        .hero-content { position: relative; z-index: 2; text-align: center; color: white; padding: 20px; }
+        
+        .hero-content h1 { 
+            color: white; font-size: clamp(2.5rem, 9vw, 4rem); margin-bottom: 1rem; 
+            text-shadow: 0 4px 20px rgba(0,0,0,0.4); 
+            opacity: 0; transform: translateY(30px); animation: heroReveal 1s var(--ease-elastic) forwards 0.2s;
+        }
+        .hero-content p { 
+            color: rgba(255,255,255,0.95); font-size: 1.1rem; margin-bottom: 2rem; font-weight: 400;
+            opacity: 0; transform: translateY(20px); animation: fadeInUp 0.8s var(--ease-smooth) forwards 0.5s;
+        }
+        .hero-content .btn { 
+            width: auto; opacity: 0; transform: translateY(20px); 
+            animation: fadeInUp 0.8s var(--ease-smooth) forwards 0.7s;
         }
 
-        /* Image Area */
-        .drink-img-container { 
-            width: 100%; 
-            aspect-ratio: 2/3; 
-            overflow: hidden; 
-            position: relative;
-            background: #f1f3f5;
+        @keyframes heroReveal { to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+
+        /* --- Menu Grid & Cards --- */
+        #menu-section { padding: 4rem 20px; max-width: 1200px; margin: 0 auto; }
+        .grid-drinks { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
+        
+        .drink-card {
+            background: var(--color-white); border-radius: var(--radius-md); overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: all 0.4s var(--ease-smooth);
+            cursor: pointer; border: 1px solid rgba(0,0,0,0.03);
+            display: flex; flex-direction: column;
         }
-        .drink-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        .drink-card:hover { transform: translateY(-6px); box-shadow: 0 12px 24px rgba(0,0,0,0.08); }
+        
+        .drink-img-container { position: relative; aspect-ratio: 4/5; background: #E5E7EB; overflow: hidden; }
+        .drink-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--ease-smooth); }
         .drink-card:hover .drink-img { transform: scale(1.08); }
         
-        /* Badges */
-        .drink-tag { 
-            position: absolute; top: 12px; left: 12px; 
-            background: rgba(255,255,255,0.95); backdrop-filter: blur(4px);
-            padding: 4px 10px; border-radius: 6px; 
-            font-size: 0.65rem; font-weight: 700; text-transform: uppercase; 
-            letter-spacing: 0.05em; color: var(--color-brand-main);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 2;
-        }
-
-        /* Content Area */
-        .drink-content { padding: 1.25rem; display: flex; flex-direction: column; align-items: center; flex: 1; width: 100%; }
-        .drink-info h3 { font-size: 1.05rem; color: var(--color-text); margin-bottom: 0.3rem; text-align: center; line-height: 1.3; }
-        .drink-price { font-size: 1.1rem; color: var(--color-brand-main); font-weight: 700; margin-bottom: 0.5rem; }
+        .drink-content { padding: 12px; flex: 1; display: flex; flex-direction: column; background: white; position: relative; z-index: 2; }
+        .drink-title { font-size: 0.95rem; font-weight: 700; color: var(--color-text); margin-bottom: 4px; line-height: 1.2; }
+        .drink-price { color: var(--color-brand-main); font-weight: 700; font-size: 1rem; margin-bottom: 10px; }
         
-        /* Add to Cart Button (Modern) */
-        .add-to-cart-btn {
-            margin-top: auto;
-            width: 100%;
-            padding: 10px;
-            border-radius: 12px;
-            background: var(--color-brand-light);
-            color: var(--color-brand-main);
-            font-weight: 600;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            border: 1px solid transparent;
+        .card-action-btn { 
+            margin-top: auto; width: 100%; padding: 9px; background: var(--color-brand-light); color: var(--color-brand-main); 
+            font-weight: 600; border-radius: 8px; font-size: 0.75rem; display: flex; justify-content: center; align-items: center;
+            transition: all 0.2s;
         }
+        .card-action-btn:active { transform: scale(0.9); }
+        .drink-card:hover .card-action-btn { background: var(--color-brand-main); color: white; }
+
+        /* --- SKELETON LOADER --- */
+        .skeleton { background: #E5E7EB; background: linear-gradient(90deg, #E5E7EB 0%, #F3F4F6 50%, #E5E7EB 100%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 4px; }
+        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        .skeleton-card { opacity: 0.6; }
+
+        /* --- ZOOM PREVIEW (Lightbox) --- */
+        #zoom-preview {
+            display: none; position: fixed; inset: 0; z-index: 4000;
+            background: rgba(0,0,0,0.9); backdrop-filter: blur(8px);
+            opacity: 0; transition: opacity 0.3s;
+            align-items: center; justify-content: center; padding: 20px;
+        }
+        #zoom-preview.active { display: flex; opacity: 1; }
+        .zoomed-img { max-width: 100%; max-height: 85vh; border-radius: 12px; box-shadow: 0 0 50px rgba(0,0,0,0.5); transform: scale(0.95); transition: transform 0.3s var(--ease-elastic); }
+        #zoom-preview.active .zoomed-img { transform: scale(1); }
+        .close-zoom { position: absolute; top: 20px; right: 20px; color: white; font-size: 2rem; cursor: pointer; z-index: 4001; background: rgba(255,255,255,0.1); border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; }
+        .close-zoom:hover { background: rgba(255,255,255,0.2); }
+
+        /* --- CART OVERLAY SYSTEM --- */
+        #cart-overlay {
+            display: none;
+            position: fixed; inset: 0; z-index: 2000;
+            background: rgba(248, 249, 250, 0.95);
+            backdrop-filter: blur(5px);
+        }
+        #cart-overlay.active { display: flex; animation: fadeSlideIn 0.3s var(--ease-smooth) forwards; }
+        @keyframes fadeSlideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Cart Steps */
+        .cart-step { width: 100%; height: 100%; display: flex; flex-direction: column; transition: opacity 0.3s; }
+        .cart-step.hidden-step { display: none; opacity: 0; }
         
-        .drink-card:hover .add-to-cart-btn {
-            background: var(--color-brand-main);
-            color: white;
-            box-shadow: 0 4px 12px rgba(93, 140, 113, 0.25);
-        }
+        .cart-header { background: white; padding: 16px 20px; border-bottom: 1px solid var(--color-border); display: flex; justify-content: space-between; align-items: center; height: 65px; flex-shrink: 0; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
+        .cart-header h2 { font-size: 1.25rem; }
 
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .grid-drinks { grid-template-columns: repeat(2, 1fr); gap: 1rem; padding: 0 0.5rem; }
-            .drink-card { padding: 0; max-width: 100%; border-radius: 12px; }
-            .drink-img-container { aspect-ratio: 4/5; }
-            .drink-content { padding: 0.8rem 0.5rem; }
-            .drink-info h3 { font-size: 0.95rem; }
-            .drink-price { font-size: 1rem; }
-            .drink-desc { display: none; }
-            .add-to-cart-btn { padding: 8px; font-size: 0.75rem; border-radius: 8px; }
-            .drink-card:hover { transform: none; }
-            .drink-card:hover .add-to-cart-btn { background: var(--color-brand-light); color: var(--color-brand-main); }
-        }
+        .cart-body { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+        .cart-footer { background: white; padding: 20px; border-top: 1px solid var(--color-border); flex-shrink: 0; box-shadow: 0 -4px 20px rgba(0,0,0,0.03); }
 
-        /* --- Modals (Modern) --- */
-        .modal { display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); backdrop-filter: blur(4px); align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; padding: 20px; }
+        .cart-item-row { 
+            background: white; padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--color-border); 
+            display: flex; gap: 12px; align-items: center; transition: transform 0.2s;
+        }
+        .cart-item-row:active { transform: scale(0.98); }
+        .cart-item-img { width: 55px; height: 55px; border-radius: 8px; object-fit: cover; background: #eee; }
+        
+        .qty-selector {
+            display: inline-flex; align-items: center; background: #F3F4F6;
+            border: 1px solid #E5E7EB; border-radius: 20px; padding: 2px;
+        }
+        .qty-btn { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem; background: white; color: var(--color-text); transition: all 0.2s; }
+        .qty-btn:active { background: var(--color-brand-main); color: white; transform: scale(0.9); }
+        .qty-val { width: 30px; text-align: center; font-weight: 700; font-size: 0.9rem; }
+
+        /* --- PRODUCT MODAL --- */
+        .modal { display: none; position: fixed; inset: 0; z-index: 3000; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: opacity 0.3s; }
         .modal.show { display: flex; opacity: 1; }
-        
-        .modal-content { background-color: #fff; margin: auto; width: 100%; max-width: 900px; border-radius: 20px; position: relative; box-shadow: var(--shadow-lg); animation: popUp 0.4s cubic-bezier(0.19, 1, 0.22, 1); overflow: hidden; display: flex; flex-direction: row; }
-        @keyframes popUp { from { transform: scale(0.95) translateY(20px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
-
-        .modal-img-wrapper { width: 50%; background: #f1f3f5; position: relative; }
-        .modal-img-wrapper img { width: 100%; height: 100%; object-fit: cover; cursor: zoom-in; transition: transform 0.5s; }
-        .modal-img-wrapper:hover img { transform: scale(1.05); }
-        
-        .modal-details { width: 50%; padding: 3rem; display: flex; flex-direction: column; position: relative; }
-        .close-modal { position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.05); border: none; font-size: 1.5rem; color: #444; cursor: pointer; width: 40px; height: 40px; border-radius: 50%; transition: background 0.2s; display: flex; align-items: center; justify-content: center; }
-        .close-modal:hover { background: #000; color: white; }
-
-        /* Qty Selector */
-        .qty-wrapper { display: flex; align-items: center; justify-content: center; gap: 15px; margin: 1.5rem 0; background: #f8f9fa; padding: 5px; border-radius: 50px; width: fit-content; align-self: center; }
-        .qty-btn { width: 36px; height: 36px; border-radius: 50%; border: 1px solid #dee2e6; background: white; display: flex; align-items: center; justify-content: center; font-weight: bold; transition: 0.2s; }
-        .qty-btn:hover { border-color: var(--color-brand-main); color: var(--color-brand-main); }
-        .qty-display { font-weight: 700; font-size: 1.1rem; width: 40px; text-align: center; }
-
-        /* Delivery Toggle Style */
-        .delivery-toggle { 
-            display: flex; background: #f1f3f5; padding: 4px; border-radius: 12px; margin-bottom: 1.5rem; 
+        .modal-content { 
+            background: white; width: 100%; max-width: 850px; border-radius: 24px; overflow: hidden; 
+            display: flex; flex-direction: column; max-height: 90vh; 
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); transform: scale(0.9); transition: transform 0.4s var(--ease-elastic);
         }
-        .toggle-option { 
-            flex: 1; text-align: center; padding: 10px; border-radius: 10px; font-size: 0.9rem; font-weight: 600; color: #868e96; cursor: pointer; transition: all 0.3s; 
-            display: flex; align-items: center; justify-content: center; gap: 6px;
+        .modal.show .modal-content { transform: scale(1); }
+        @media(max-width: 768px) { .modal-content { height: 92vh; border-radius: 0; } .modal-img-wrapper { width: 100%; height: 280px; } .modal-details { padding: 1.5rem; } }
+        @media(min-width: 769px) { .modal-content { flex-direction: row; height: 600px; } .modal-img-wrapper { width: 50%; height: auto; } .modal-details { width: 50%; padding: 3rem; } }
+
+        .zoom-trigger-btn { position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; z-index: 10; transition: transform 0.2s; }
+        .zoom-trigger-btn:hover { transform: scale(1.1); background: rgba(255,255,255,0.3); }
+
+        /* --- FORM STYLES --- */
+        .form-group label { display: block; font-weight: 600; font-size: 0.8rem; margin-bottom: 5px; color: var(--color-text); }
+        .form-input { width: 100%; padding: 12px 14px; border: 1px solid var(--color-border); border-radius: 10px; font-size: 0.95rem; font-family: inherit; transition: border-color 0.2s; background: white; }
+        .form-input:focus { border-color: var(--color-brand-main); box-shadow: 0 0 0 3px rgba(74, 115, 89, 0.1); }
+        
+        .delivery-toggle { display: flex; background: #F3F4F6; padding: 5px; border-radius: 10px; margin-bottom: 1rem; }
+        .toggle-opt { flex: 1; text-align: center; padding: 10px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; color: var(--color-text-light); cursor: pointer; transition: all 0.3s var(--ease-smooth); }
+        .toggle-opt.active { background: white; color: var(--color-brand-main); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+
+        /* --- SUCCESS CHECKMARK ANIMATION --- */
+        #success-modal {
+            display: none; position: fixed; inset: 0; z-index: 5000;
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+            align-items: center; justify-content: center; flex-direction: column;
+            animation: fadeIn 0.3s;
         }
-        .toggle-option.active { background: white; color: var(--color-brand-main); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .checkmark-circle { width: 80px; height: 80px; border-radius: 50%; background: var(--color-brand-light); display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+        .checkmark { width: 40px; height: 40px; stroke: var(--color-brand-main); stroke-width: 3; fill: none; stroke-dasharray: 48; stroke-dashoffset: 48; animation: drawCheck 0.6s 0.2s forwards; }
+        @keyframes drawCheck { to { stroke-dashoffset: 0; } }
 
-        /* Form Inputs */
-        .form-group { margin-bottom: 1rem; text-align: left; }
-        .form-label { display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--color-text-light); margin-bottom: 0.5rem; }
-        .form-input { 
-            width: 100%; padding: 12px 16px; border: 1px solid #e9ecef; border-radius: 12px; 
-            font-family: inherit; font-size: 0.95rem; transition: all 0.3s; background: white; 
+        /* --- Utilities --- */
+        .hidden { display: none !important; }
+        
+        /* --- Responsive --- */
+        @media (max-width: 600px) {
+            :root { --header-height: 60px; }
+            .nav-container { padding: 0 16px; }
+            #menu-section { padding: 3rem 16px; }
+            .grid-drinks { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .btn { padding: 12px 20px; font-size: 0.8rem; }
+            .cart-header, .cart-footer { padding: 16px; }
+            .cart-item-img { width: 50px; height: 50px; }
+            .form-input { padding: 10px 12px; }
         }
-        .form-input:focus { border-color: var(--color-brand-main); box-shadow: 0 0 0 3px rgba(93, 140, 113, 0.1); background: #fff; }
-        .hidden { display: none; }
+        @media (min-width: 601px) and (max-width: 992px) { .grid-drinks { grid-template-columns: repeat(3, 1fr); } }
+        @media (min-width: 993px) { .grid-drinks { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 24px; } }
 
-        /* Cart Items */
-        .cart-items-col { flex: 2; padding: 2.5rem; overflow-y: auto; border-right: 1px solid #f1f3f5; background: #fff; }
-        .cart-summary-col { flex: 1.2; padding: 2.5rem; background: #fafbfc; display: flex; flex-direction: column; }
-        
-        .cart-item { display: flex; gap: 1rem; margin-bottom: 1.5rem; align-items: center; padding-bottom: 1.5rem; border-bottom: 1px solid #f1f3f5; }
-        .cart-item-img { width: 70px; height: 70px; border-radius: 12px; object-fit: cover; background: #eee; }
-        .cart-item-info { flex: 1; }
-        .cart-item-title { font-weight: 600; color: var(--color-text); margin-bottom: 4px; }
-        .cart-item-meta { font-size: 0.85rem; color: var(--color-text-light); }
-        
-        .cart-mini-qty { display: flex; align-items: center; gap: 10px; margin-top: 5px; }
-        .mini-qty-btn { width: 24px; height: 24px; border-radius: 6px; background: #f1f3f5; border: none; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; }
-        .mini-qty-btn:hover { background: #e9ecef; }
-        
-        .cart-total { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 2rem; border-top: 2px solid #e9ecef; }
-        .total-amount { font-size: 1.8rem; font-weight: 800; color: var(--color-brand-main); }
-        
-        .empty-cart { text-align: center; color: #adb5bd; padding-top: 3rem; display: flex; flex-direction: column; align-items: center; }
-        .empty-cart svg { width: 60px; height: 60px; margin-bottom: 1rem; stroke: #dee2e6; }
-
-        /* Zoom Overlay */
-        #zoom-overlay { display: none; position: fixed; z-index: 4000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; }
-        #zoom-overlay img { max-height: 90vh; max-width: 90vw; object-fit: contain; border-radius: 8px; }
-        #zoom-overlay .close-zoom { position: absolute; top: 30px; right: 30px; color: white; font-size: 3rem; cursor: pointer; line-height: 1; }
-
-        /* Toast */
-        #toast { visibility: hidden; min-width: 280px; background-color: #333; color: #fff; text-align: center; border-radius: 50px; padding: 14px 28px; position: fixed; z-index: 4000; left: 50%; bottom: 30px; transform: translateX(-50%) translateY(20px); font-size: 0.9rem; box-shadow: 0 10px 30px rgba(0,0,0,0.2); opacity: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        #toast.show { visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0); bottom: 40px; }
-
-        /* Back to top */
-        #scrollTopBtn { display: none; position: fixed; bottom: 30px; right: 30px; z-index: 999; border: none; outline: none; background-color: var(--color-brand-main); color: white; cursor: pointer; padding: 14px; border-radius: 50%; box-shadow: 0 5px 15px rgba(93, 140, 113, 0.3); transition: all 0.3s; }
-        #scrollTopBtn:hover { transform: translateY(-5px); background-color: var(--color-brand-dark); }
-
-        /* Mobile Responsive Modal */
-        @media (max-width: 768px) {
-            .modal-content { flex-direction: column; height: 100%; max-height: 100vh; border-radius: 0; animation: none; }
-            .modal-img-wrapper { width: 100%; height: 300px; flex: none; }
-            .modal-details { width: 100%; padding: 2rem; overflow-y: auto; }
-            .cart-items-col { flex: 1; overflow-y: scroll; border-right: none; padding: 1.5rem; border-bottom: 1px solid #f1f3f5; }
-            .cart-summary-col { flex: none; padding: 1.5rem; }
-        }
-        
-        /* Footer */
-        footer { background-color: #1a1a1a; color: #888; padding: 4rem 24px; font-size: 0.9rem; }
-        .footer-content { max-width: var(--container-width); margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; margin-bottom: 3rem; }
-        .footer-col h4 { color: #fff; margin-bottom: 1.5rem; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
-        .footer-col a { color: #adb5bd; transition: 0.2s; display: block; margin-bottom: 0.8rem; }
-        .footer-col a:hover { color: #fff; }
-        .copyright { max-width: var(--container-width); margin: 0 auto; border-top: 1px solid #333; padding-top: 2rem; text-align: center; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
+    <!-- SKELETON LOADER (Initially Visible) -->
+    <div id="skeleton-loader" style="padding: 4rem 20px; max-width: 1200px; margin: 0 auto;">
+        <div class="grid-drinks">
+            <!-- 4 Skeletons -->
+            <div class="drink-card skeleton-card"><div class="drink-img-container skeleton"></div><div class="drink-content"><div class="skeleton" style="height:15px; width:70%; margin-bottom:8px;"></div><div class="skeleton" style="height:15px; width:30%;"></div></div></div>
+            <div class="drink-card skeleton-card"><div class="drink-img-container skeleton"></div><div class="drink-content"><div class="skeleton" style="height:15px; width:70%; margin-bottom:8px;"></div><div class="skeleton" style="height:15px; width:30%;"></div></div></div>
+            <div class="drink-card skeleton-card"><div class="drink-img-container skeleton"></div><div class="drink-content"><div class="skeleton" style="height:15px; width:70%; margin-bottom:8px;"></div><div class="skeleton" style="height:15px; width:30%;"></div></div></div>
+            <div class="drink-card skeleton-card"><div class="drink-img-container skeleton"></div><div class="drink-content"><div class="skeleton" style="height:15px; width:70%; margin-bottom:8px;"></div><div class="skeleton" style="height:15px; width:30%;"></div></div></div>
+        </div>
+    </div>
+
+    <!-- HEADER -->
     <header id="main-header">
         <div class="nav-container">
-            <button class="menu-toggle" aria-label="Menu">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-            </button>
-            <a href="#" class="brand-logo">
+            <a href="#" class="brand-logo" onclick="window.scrollTo({top:0, behavior:'smooth'})">
                 <img src="https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/MORY%20LOGO-green.png" alt="MORY">
             </a>
-            <nav class="nav-menu" id="nav-menu">
-                <a href="#menu-section" class="active">Menu</a>
-                <a href="#story-section">Our Story</a>
-                <a href="#locations-section">Locations</a>
-            </nav>
-            <div class="nav-icons">
-                <button class="icon-btn" onclick="document.getElementById('search-input').focus()">
-                    <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <div style="position:relative;">
+                <button class="icon-btn" onclick="window.openCart()">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
                 </button>
-                <button class="icon-btn" onclick="window.openCart()" style="position: relative;">
-                    <svg viewBox="0 0 24 24" fill="none"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-                    <span class="cart-badge" id="cart-count">0</span>
-                </button>
+                <span class="cart-badge" id="cart-count">0</span>
             </div>
         </div>
     </header>
 
-    <!-- Hero -->
-    <section class="hero">
-        <div class="hero-bg"></div>
-        <div class="hero-content">
-            <h1>Stay Mory</h1>
-            <p>keep it green</p>
-            <a href="#menu-section" class="btn btn-brand">View Menu</a>
-        </div>
-    </section>
-
-    <!-- Marquee -->
-    <div class="marquee-bar">
-        <div class="marquee-content">
-            <span>Follow @moryofficial._ for updates</span>
-            <span>Order Easy. Sip Happy.</span>
-            <span>Follow @moryofficial._ for updates</span>
-        </div>
-    </div>
-
-    <!-- Menu Section -->
-    <section id="menu-section">
-        <div class="section-header">
-            <span>Our Signature Drinks</span>
-            <h2>Explore The Menu</h2>
-        </div>
-
-        <div class="search-container">
-            <svg class="search-icon" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input type="text" id="search-input" class="search-input" placeholder="Search drinks (e.g. Mango, Latte)..." onkeyup="window.filterDrinks()">
-        </div>
-
-        <div class="grid-drinks" id="drinks-grid">
-            <!-- Drink 1 -->
-            <div class="drink-card" onclick="window.openModal('strawberry')">
-                <div class="drink-img-container">
-                    <span class="drink-tag">Popular</span>
-                    <img class="drink-img" src="https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Strawberry%20Matcha.jpg" alt="Strawberry Matcha">
-                </div>
-                <div class="drink-content">
-                    <div class="drink-info">
-                        <h3>Strawberry Matcha</h3>
-                        <div class="drink-price">RM12</div>
-                        <p class="drink-desc">Fresh strawberries blended with premium ceremonial matcha.</p>
-                    </div>
-                    <button class="add-to-cart-btn">Add to Cart</button>
-                </div>
-            </div>
-            <!-- Drink 2 -->
-            <div class="drink-card" onclick="window.openModal('blueberry')">
-                <div class="drink-img-container">
-                    <img class="drink-img" src="https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Blueberry%20Matcha.jpg" alt="Blueberry Matcha">
-                </div>
-                <div class="drink-content">
-                    <div class="drink-info">
-                        <h3>Blueberry Matcha</h3>
-                        <div class="drink-price">RM14</div>
-                        <p class="drink-desc">A tart and sweet fusion of wild blueberries.</p>
-                    </div>
-                    <button class="add-to-cart-btn">Add to Cart</button>
-                </div>
-            </div>
-            <!-- Drink 3 -->
-            <div class="drink-card" onclick="window.openModal('latte')">
-                <div class="drink-img-container">
-                    <span class="drink-tag">Classic</span>
-                    <img class="drink-img" src="https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Matcha%20Latte.jpg" alt="Matcha Latte">
-                </div>
-                <div class="drink-content">
-                    <div class="drink-info">
-                        <h3>Matcha Latte</h3>
-                        <div class="drink-price">RM10</div>
-                        <p class="drink-desc">Smooth and creamy matcha whisked with oat milk.</p>
-                    </div>
-                    <button class="add-to-cart-btn">Add to Cart</button>
-                </div>
-            </div>
-            <!-- Drink 4 -->
-            <div class="drink-card" onclick="window.openModal('mango')">
-                <div class="drink-img-container">
-                    <span class="drink-tag">Seasonal</span>
-                    <img class="drink-img" src="https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Mango%20Matcha.jpg" alt="Mango Matcha">
-                </div>
-                <div class="drink-content">
-                    <div class="drink-info">
-                        <h3>Mango Matcha</h3>
-                        <div class="drink-price">RM14</div>
-                        <p class="drink-desc">Tropical mango puree layered over matcha blend.</p>
-                    </div>
-                    <button class="add-to-cart-btn">Add to Cart</button>
-                </div>
+    <!-- MAIN CONTENT -->
+    <main id="main-content" style="opacity:0; transition: opacity 0.5s;">
+        
+        <!-- HERO SECTION WITH DYNAMIC SLIDER -->
+        <section class="hero">
+            <div class="hero-slider" id="hero-slider">
+                <!-- Slides injected via JS -->
             </div>
             
-            <div id="no-results" class="no-results">
-                <h3>No drinks found</h3>
-                <p>Try searching for "Mango" or "Latte"</p>
+            <div class="hero-content">
+                <h1>Stay Mory.</h1>
+                <p>Stay Green</p>
+                <a href="#menu-section" class="btn btn-brand">Order Now</a>
+            </div>
+        </section>
+
+        <section id="menu-section">
+            <div style="text-align:center; margin-bottom:2.5rem;">
+                <span class="uppercase">Menu</span>
+                <h2 style="font-size: 1.75rem;">Explore The Menu</h2>
+                <p style="font-size:0.95rem; margin-top:0.5rem; color:#6B7280;">Fresh blends made to order.</p>
+            </div>
+            
+            <div class="grid-drinks" id="drinks-grid" style="display:none;">
+                <!-- Cards Injected via JS -->
+            </div>
+        </section>
+        
+        <footer style="text-align:center; padding:3rem 20px; margin-top:auto; background:white; border-top:1px solid var(--color-border);">
+            <p style="font-size:0.85rem; font-weight:600; color:#9CA3AF;">&copy; 2025 MORY. All rights reserved. Led by DDNetwork.</p>
+        </footer>
+    </main>
+
+    <!-- === ZOOM PREVIEW === -->
+    <div id="zoom-preview">
+        <button class="close-zoom" onclick="window.closeZoom()">×</button>
+        <img id="zoomed-image" src="" class="zoomed-img">
+    </div>
+
+    <!-- === CART OVERLAY === -->
+    <div id="cart-overlay">
+        
+        <!-- STEP 1 -->
+        <div id="step-1" class="cart-step">
+            <div class="cart-header">
+                <h2>Your Order</h2>
+                <button onclick="window.closeCart()" style="padding:8px; border-radius:50%; background:#f3f4f6;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+            </div>
+            
+            <div class="cart-body" id="cart-list"></div>
+
+            <div class="cart-footer">
+                <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:16px;">
+                    <span style="font-size:0.8rem; text-transform:uppercase; font-weight:700; color:#6B7280;">Total</span>
+                    <span style="font-size:1.8rem; font-weight:800; color:var(--color-text); line-height:1;" id="cart-total-amount">RM0.00</span>
+                </div>
+                <button class="btn btn-brand" onclick="window.goToStep2()">Proceed to Checkout</button>
             </div>
         </div>
-    </section>
 
-    <!-- About & Location -->
-    <section id="story-section" style="padding: 80px 24px; background: #fff;">
-        <div style="max-width: 900px; margin: 0 auto; text-align: center;">
-            <h2 style="margin-bottom: 1.5rem;">Rooted in Mindful Living</h2>
-            <p style="max-width: 600px; margin: 0 auto; font-size: 1.1rem; color: #555;">
-                MORY is a modern matcha brand that blends tradition with lifestyle. We craft rich, vibrant matcha made to energize your day, calm your mind, and elevate every sip. Pure, versatile, and rooted in mindful living.
-            </p>
-            <button class="btn btn-outline" onclick="window.open('https://maps.google.com')">Visit Us</button>
-        </div>
-    </section>
+        <!-- STEP 2 -->
+        <div id="step-2" class="cart-step hidden-step">
+            <div class="cart-header">
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <button onclick="window.backToStep1()" style="padding:8px; border-radius:50%; background:#f3f4f6;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                    <h2>Checkout</h2>
+                </div>
+                <button onclick="window.closeCart()" style="padding:8px; border-radius:50%; background:#f3f4f6;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+            </div>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-col">
-                <h4>Shop Mory</h4>
-                <a href="#menu-section">Matcha Drinks</a>
-                <a href="#menu-section">Coming Soon</a>
-                <a href="#">Coming Soon</a>
-            </div>
-            <div class="footer-col">
-                <h4>Support</h4>
-                <a href="#">Contact Us</a>
-                <a href="#">Order Now</a>
-                <a href="#">Coming Soon</a>
-            </div>
-            <div class="footer-col">
-                <h4>Stay Connected</h4>
-                <p style="font-size: 0.85rem; margin-bottom: 1rem; color: #666;">Join our club for drops and tips.</p>
-                <div style="display: flex; gap: 10px;">
-                    <button class="btn btn-sm btn-brand" style="border-radius: 8px;">Instagram</button>
+            <div class="cart-body" style="display:block; overflow-y:scroll;">
+                <div style="max-width:450px; margin:0 auto; display:flex; flex-direction:column; gap:16px;">
+                    <span class="uppercase">Delivery Method</span>
+                    <div class="delivery-toggle">
+                        <div class="toggle-opt active" id="opt-pickup" onclick="window.setDeliveryType('pickup')">Pick Up 🛒</div>
+                        <div class="toggle-opt" id="opt-delivery" onclick="window.setDeliveryType('delivery')">Delivery 🛵</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" id="f-name" class="form-input" placeholder="Your Name">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="tel" id="f-phone" class="form-input" placeholder="012-345 6789">
+                    </div>
+                    <div class="form-group hidden" id="group-address">
+                        <label>Address</label>
+                        <input type="text" id="f-address" class="form-input" placeholder="Unit, Street, Area...">
+                    </div>
+
+                    <div style="margin-top:auto; padding-top:20px; border-top:1px solid var(--color-border); display:flex; justify-content:space-between; align-items:flex-end;">
+                        <span style="font-size:0.8rem; font-weight:600; color:#6B7280;">Total Payment</span>
+                        <h2 style="color:var(--color-brand-main); font-size:1.75rem; line-height:1;" id="final-total">RM0.00</h2>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="copyright">
-            &copy; 2025 MORY. All rights reserved. Led by DDNetwork One.
-        </div>
-    </footer>
 
-    <!-- Back to Top -->
-    <button onclick="topFunction()" id="scrollTopBtn" title="Go to top">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
-    </button>
+            <div class="cart-footer" style="display:flex; gap:12px;">
+                <button class="btn btn-outline" onclick="window.backToStep1()">Back</button>
+                <button class="btn btn-brand" id="btn-submit" onclick="window.submitOrder()">Send via WhatsApp</button>
+            </div>
+        </div>
 
-    <!-- Product Modal -->
-    <div id="product-modal" class="modal">
+    </div>
+
+    <!-- PRODUCT MODAL -->
+    <div id="p-modal" class="modal">
         <div class="modal-content">
-            <div class="modal-img-wrapper" onclick="window.zoomImage()">
-                <img id="modal-img" src="" alt="">
+            <div class="modal-img-wrapper">
+                <img id="pm-img" src="" style="width:100%; height:100%; object-fit:cover;">
+                <button class="zoom-trigger-btn" onclick="event.stopPropagation(); window.openZoom()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                </button>
             </div>
             <div class="modal-details">
-                <button class="close-modal" onclick="window.closeModal()">&times;</button>
-                <span class="uppercase" id="modal-tag" style="color: var(--color-brand-main); margin-bottom: 0.5rem; display: block;">Drink</span>
-                <h2 id="modal-title" style="font-size: 2rem; margin-bottom: 0.5rem;">Drink Title</h2>
-                <h3 id="modal-price" style="color: var(--color-brand-main); margin-bottom: 1.5rem; font-size: 1.8rem;">RM00</h3>
-                <p id="modal-desc" style="color: #666; line-height: 1.6; font-size: 1rem;">Description goes here.</p>
+                <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:10px;">
+                    <span class="uppercase">Premium Blend</span>
+                    <button onclick="window.closePM()" style="padding:6px; border-radius:50%; background:#f3f4f6;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+                </div>
+                <h2 id="pm-title" style="font-size:1.6rem; margin-bottom:5px;">Title</h2>
+                <h3 id="pm-price" style="color:var(--color-brand-main); font-size:1.4rem; margin-bottom:1rem;">RM0</h3>
+                <p id="pm-desc" style="color:#6B7280; font-size:0.95rem; line-height:1.6; margin-bottom:1.5rem;">Description</p>
                 
-                <div style="margin-top: auto;">
-                    <div class="qty-wrapper">
-                        <button class="qty-btn" onclick="window.changeModalQty(-1)">-</button>
-                        <span class="qty-display" id="modal-qty">1</span>
-                        <button class="qty-btn" onclick="window.changeModalQty(1)">+</button>
+                <div style="margin-top:auto;">
+                    <div style="display:flex; align-items:center; justify-content:center; margin-bottom:1.5rem;">
+                        <div class="qty-selector">
+                            <button class="qty-btn" onclick="window.changePQty(-1)">−</button>
+                            <span class="qty-val" id="pm-qty">1</span>
+                            <button class="qty-btn" onclick="window.changePQty(1)">+</button>
+                        </div>
                     </div>
-                    <button class="btn btn-brand btn-full" style="margin-top: 1.5rem;" onclick="window.addToCartFromModal()">Add to Cart</button>
+                    <button class="btn btn-brand" onclick="window.addFromPM()">Add to Order</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Cart Modal -->
-    <div id="cart-modal" class="modal">
-        <div class="modal-content" style="flex-direction: row;">
-            <!-- Items Column -->
-            <div class="cart-items-col">
-                <button class="close-modal" onclick="window.closeCart()">&times;</button>
-                <h2 style="margin-bottom: 2rem;">Your Cart</h2>
-                <div id="cart-items-container">
-                    <div class="empty-cart">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-                        <p>Your cart is empty.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Summary & Checkout Column -->
-            <div class="cart-summary-col">
-                <h3 style="margin-bottom: 1.5rem;">Order Summary</h3>
-                
-                <!-- DELIVERY TOGGLE -->
-                <div class="form-label">Order Type</div>
-                <div class="delivery-toggle">
-                    <div class="toggle-option active" id="opt-pickup" onclick="window.selectOrderType('pickup')">
-                        <span>🛒</span> Pick Up
-                    </div>
-                    <div class="toggle-option" id="opt-delivery" onclick="window.selectOrderType('delivery')">
-                        <span>🛵</span> Delivery
-                    </div>
-                </div>
-
-                <!-- FORMS -->
-                <div id="checkout-form-container" class="hidden">
-                    <div class="form-group">
-                        <label class="form-label">Name *</label>
-                        <input type="text" id="cart-name" class="form-input" placeholder="Your Name">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Phone *</label>
-                        <input type="tel" id="cart-phone" class="form-input" placeholder="0123456789">
-                    </div>
-                    <!-- Address Field (Hidden by default) -->
-                    <div class="form-group hidden" id="address-group">
-                        <label class="form-label">Delivery Address *</label>
-                        <input type="text" id="cart-address" class="form-input" placeholder="Unit, Street, Area...">
-                    </div>
-                </div>
-
-                <div class="cart-total">
-                    <span style="font-weight: 600; color: #888;">Total</span>
-                    <span class="total-amount" id="cart-total">RM0</span>
-                </div>
-
-                <button id="btn-checkout-start" class="btn btn-brand btn-full" style="margin-top: 1.5rem;" onclick="window.showCheckoutForm()">Proceed to Checkout</button>
-                <button id="btn-submit-order" class="btn btn-brand btn-full hidden" style="margin-top: 1.5rem;" onclick="window.submitCartOrder()">Send Order via WhatsApp</button>
-            </div>
+    <!-- SUCCESS MODAL -->
+    <div id="success-modal">
+        <div class="checkmark-circle">
+            <svg class="checkmark" viewBox="0 0 52 52"><path d="M14.1 27.2l7.1 7.2 16.7-16.8"/></svg>
         </div>
+        <h2 style="font-size:1.5rem; color:var(--color-brand-main);">Order Sent!</h2>
+        <p style="color:#6B7280;">Redirecting to WhatsApp...</p>
     </div>
 
-    <!-- Zoom Overlay -->
-    <div id="zoom-overlay">
-        <div class="close-zoom" onclick="window.closeZoom()">&times;</div>
-        <img id="zoomed-img" src="" alt="">
-    </div>
-
-    <!-- Hidden WhatsApp Link -->
     <a id="wa-link" href="" target="_blank" style="display:none;"></a>
 
-    <!-- JS -->
     <script>
         const WA_NUMBER = "60122600969";
+        const products = {
+            'strawberry': { title: 'Strawberry Matcha', price: 12, img: 'https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Strawberry%20Matcha.jpg', desc: 'Fresh strawberries blended with premium ceremonial matcha. A perfect balance of sweet berry notes and earthy green tea.' },
+            'blueberry': { title: 'Blueberry Matcha', price: 14, img: 'https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Blueberry%20Matcha.jpg', desc: 'A tart and sweet fusion of wild blueberries and earthy matcha. Our blueberries are slow-cooked to release their natural sugars.' },
+            'latte': { title: 'Matcha Latte', price: 10, img: 'https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Matcha%20Latte.jpg', desc: 'Smooth and creamy matcha whisked with your choice of milk. We use organic oat milk as our house standard.' },
+            'mango': { title: 'Mango Matcha', price: 14, img: 'https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Mango%20Matcha.jpg', desc: 'Tropical mango puree layered over our signature matcha blend. Made with Alphonso mangoes for richest flavor.' }
+        };
+
         let cart = JSON.parse(localStorage.getItem('mory_cart')) || [];
-        let currentModalProductKey = null;
-        let currentModalQty = 1;
-        let selectedOrderType = 'pickup'; // 'pickup' or 'delivery'
+        let pmKey = null; let pmQty = 1;
+        let deliveryType = 'pickup';
 
-        // Products Data
-        window.products = {
-            'strawberry': { title: 'Strawberry Matcha', price: 12, img: 'https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Strawberry%20Matcha.jpg', tag: 'Popular', desc: 'Fresh strawberries blended with premium ceremonial matcha. A perfect balance of sweet berry notes and earthy green tea.' },
-            'blueberry': { title: 'Blueberry Matcha', price: 14, img: 'https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Blueberry%20Matcha.jpg', tag: 'Rich', desc: 'A tart and sweet fusion of wild blueberries and earthy matcha. Our blueberries are slow-cooked to release their natural sugars.' },
-            'latte': { title: 'Matcha Latte', price: 10, img: 'https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Matcha%20Latte.jpg', tag: 'Classic', desc: 'Smooth and creamy matcha whisked with your choice of milk. We use organic oat milk as our house standard.' },
-            'mango': { title: 'Mango Matcha', price: 14, img: 'https://raw.githubusercontent.com/ddnetwork-ent/mory-matcha/refs/heads/main/Mango%20Matcha.jpg', tag: 'Seasonal', desc: 'Tropical mango puree layered over our signature matcha blend. Made with Alphonso mangoes for richest flavor.' }
+        // --- Init & Loaders ---
+        window.onload = () => {
+            updateBadge();
+            initHeroSlider(); // NEW: Initialize Slider
+            setTimeout(() => {
+                document.getElementById('skeleton-loader').style.display = 'none';
+                document.getElementById('main-content').style.opacity = '1';
+                renderDrinks();
+            }, 800); // Fake load time for effect
         };
+        
+        // --- NEW: Hero Slider Logic ---
+        function initHeroSlider() {
+            const slider = document.getElementById('hero-slider');
+            const productImages = Object.values(products).map(p => p.img);
+            
+            productImages.forEach((imgUrl, index) => {
+                const slide = document.createElement('div');
+                slide.className = 'hero-slide';
+                slide.style.backgroundImage = `url('${imgUrl}')`;
+                if(index === 0) slide.classList.add('active');
+                slider.appendChild(slide);
+            });
 
-        // --- Modal Functions ---
-        window.openModal = function(key) {
-            const product = window.products[key];
-            if (!product) return;
-            currentModalProductKey = key;
-            currentModalQty = 1;
-            document.getElementById("modal-qty").textContent = 1;
-            document.getElementById("modal-img").src = product.img;
-            document.getElementById("modal-title").textContent = product.title;
-            document.getElementById("modal-price").textContent = "RM" + product.price;
-            document.getElementById("modal-desc").textContent = product.desc;
-            document.getElementById("modal-tag").textContent = product.tag;
-            document.getElementById("product-modal").classList.add('show');
-            document.body.style.overflow = 'hidden';
-        };
+            let currentIndex = 0;
+            const slides = document.querySelectorAll('.hero-slide');
+            
+            setInterval(() => {
+                slides[currentIndex].classList.remove('active');
+                currentIndex = (currentIndex + 1) % slides.length;
+                slides[currentIndex].classList.add('active');
+            }, 5000); // Change every 5 seconds
+        }
 
-        window.closeModal = function() {
-            document.getElementById("product-modal").classList.remove('show');
-            document.body.style.overflow = 'auto';
-        };
-
-        window.changeModalQty = function(change) {
-            if(currentModalQty + change > 0) {
-                currentModalQty += change;
-                document.getElementById("modal-qty").textContent = currentModalQty;
+        // Parallax Effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('main-header');
+            const heroContent = document.querySelector('.hero-content');
+            const scrolled = window.scrollY;
+            
+            if(scrolled > 50) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
+            
+            if(scrolled < 800) {
+                // Simple parallax on text content
+                heroContent.style.transform = `translateY(${scrolled * 0.3}px)`;
+                heroContent.style.opacity = 1 - (scrolled / 700);
             }
-        };
+        });
 
-        window.zoomImage = function() {
-            document.getElementById("zoomed-img").src = document.getElementById("modal-img").src;
-            document.getElementById("zoom-overlay").style.display = "flex";
+        function renderDrinks() {
+            const grid = document.getElementById('drinks-grid');
+            grid.style.display = 'grid';
+            grid.innerHTML = '';
+            
+            Object.keys(products).forEach((key, idx) => {
+                const p = products[key];
+                const div = document.createElement('div');
+                div.className = 'drink-card';
+                div.onclick = () => window.openModal(key);
+                div.style.opacity = '0'; 
+                div.style.animation = `fadeInUp 0.5s var(--ease-elastic) forwards ${idx * 0.1}s`;
+                
+                div.innerHTML = `
+                    <div class="drink-img-container">
+                        ${idx===0 ? '<span style="position:absolute; top:10px; left:10px; background:white; padding:4px 10px; border-radius:12px; font-size:0.65rem; font-weight:bold; box-shadow:0 2px 4px rgba(0,0,0,0.1); z-index:2;">Best Seller</span>' : ''}
+                        <img class="drink-img" src="${p.img}" loading="lazy">
+                    </div>
+                    <div class="drink-content">
+                        <div class="drink-title">${p.title}</div>
+                        <div class="drink-price">RM${p.price}</div>
+                        <button class="card-action-btn" onclick="event.stopPropagation(); window.quickAdd('${key}')">
+                            <span>Quick Add</span>
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(div);
+            });
+        }
+
+        // --- Zoom Logic ---
+        window.openZoom = function() {
+            const imgSrc = document.getElementById('pm-img').src;
+            const zoomOverlay = document.getElementById('zoom-preview');
+            const zoomImg = document.getElementById('zoomed-image');
+            zoomImg.src = imgSrc;
+            zoomOverlay.classList.add('active');
         };
 
         window.closeZoom = function() {
-            document.getElementById("zoom-overlay").style.display = "none";
+            document.getElementById('zoom-preview').classList.remove('active');
         };
 
-        // --- Cart Functions ---
-        window.saveCart = function() {
+        // --- Cart Logic ---
+        function saveCart() {
             localStorage.setItem('mory_cart', JSON.stringify(cart));
-            window.updateCartBadge();
-        };
+            updateBadge();
+            renderCartList();
+        }
 
-        window.addToCartFromModal = function() {
-            const product = window.products[currentModalProductKey];
-            const existing = cart.find(item => item.key === currentModalProductKey);
-            if(existing) {
-                existing.qty += currentModalQty;
-            } else {
-                cart.push({
-                    key: currentModalProductKey,
-                    title: product.title,
-                    price: product.price,
-                    img: product.img,
-                    qty: currentModalQty
-                });
-            }
-            window.saveCart();
-            window.closeModal();
-            window.showToast("Added to Cart!");
-        };
+        function updateBadge() {
+            const total = cart.reduce((a, b) => a + b.qty, 0);
+            document.getElementById('cart-count').textContent = total;
+            document.getElementById('cart-count').classList.toggle('visible', total > 0);
+        }
 
-        window.openCart = function() {
-            window.renderCartItems();
-            document.getElementById("cart-modal").classList.add('show');
+        function quickAdd(key) {
+            const p = products[key];
+            const ex = cart.find(i => i.key === key);
+            if(ex) ex.qty++;
+            else cart.push({ key, ...p, qty: 1 });
+            saveCart();
+        }
+
+        function openCart() {
+            document.getElementById('cart-overlay').classList.add('active');
             document.body.style.overflow = 'hidden';
-            // Reset form view
-            document.getElementById("checkout-form-container").classList.add('hidden');
-            document.getElementById("btn-checkout-start").classList.remove('hidden');
-            document.getElementById("btn-submit-order").classList.add('hidden');
-        };
+            backToStep1();
+        }
 
-        window.closeCart = function() {
-            document.getElementById("cart-modal").classList.remove('show');
+        function closeCart() {
+            document.getElementById('cart-overlay').classList.remove('active');
             document.body.style.overflow = 'auto';
-        };
+        }
 
-        window.updateCartBadge = function() {
-            const totalQty = cart.reduce((acc, item) => acc + item.qty, 0);
-            const badge = document.getElementById("cart-count");
-            badge.textContent = totalQty;
-            badge.classList.toggle('visible', totalQty > 0);
-        };
-
-        window.renderCartItems = function() {
-            const container = document.getElementById("cart-items-container");
-            container.innerHTML = '';
-            let totalPrice = 0;
+        function renderCartList() {
+            const list = document.getElementById('cart-list');
+            list.innerHTML = '';
+            let total = 0;
 
             if(cart.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-cart">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-                        <p>Your cart is empty.</p>
-                    </div>`;
-                document.getElementById("cart-total").textContent = "RM0";
-                document.getElementById("btn-checkout-start").disabled = true;
-                document.getElementById("btn-checkout-start").style.opacity = "0.5";
+                list.innerHTML = `<div style="text-align:center; padding:3rem; display:flex; flex-direction:column; align-items:center; gap:1rem; opacity:0.5;"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><h3>Cart is empty</h3></div>`;
+                document.getElementById('cart-total-amount').textContent = 'RM0.00';
+                document.getElementById('final-total').textContent = 'RM0.00';
                 return;
             }
 
-            document.getElementById("btn-checkout-start").disabled = false;
-            document.getElementById("btn-checkout-start").style.opacity = "1";
-
-            cart.forEach((item, index) => {
-                totalPrice += item.price * item.qty;
-                const el = document.createElement('div');
-                el.className = 'cart-item';
-                el.innerHTML = `
-                    <img src="${item.img}" class="cart-item-img" alt="${item.title}">
-                    <div class="cart-item-info">
-                        <div class="cart-item-title">${item.title}</div>
-                        <div class="cart-item-meta">RM${item.price} x ${item.qty}</div>
-                        <div class="cart-mini-qty">
-                            <button class="mini-qty-btn" onclick="window.updateCartQty(${index}, -1)">-</button>
-                            <span>${item.qty}</span>
-                            <button class="mini-qty-btn" onclick="window.updateCartQty(${index}, 1)">+</button>
+            cart.forEach((item, idx) => {
+                total += item.price * item.qty;
+                const div = document.createElement('div');
+                div.className = 'cart-item-row';
+                div.innerHTML = `
+                    <img src="${item.img}" class="cart-item-img">
+                    <div style="flex:1;">
+                        <div style="font-weight:700; font-size:0.95rem;">${item.title}</div>
+                        <div style="font-size:0.8rem; color:#6B7280; margin-bottom:6px;">RM${item.price.toFixed(2)}</div>
+                        <div class="qty-selector">
+                            <button class="qty-btn" onclick="window.changeQty(${idx}, -1)">−</button>
+                            <span class="qty-val">${item.qty}</span>
+                            <button class="qty-btn" onclick="window.changeQty(${idx}, 1)">+</button>
                         </div>
                     </div>
-                    <button class="btn btn-sm btn-danger" style="margin-left:auto;" onclick="window.removeFromCart(${index})">Remove</button>
+                    <button class="btn-danger" onclick="window.removeItem(${idx})">Remove</button>
                 `;
-                container.appendChild(el);
+                list.appendChild(div);
             });
-            document.getElementById("cart-total").textContent = "RM" + totalPrice;
-        };
 
-        window.updateCartQty = function(index, change) {
-            const item = cart[index];
-            if(item.qty + change > 0) {
-                item.qty += change;
-                window.saveCart();
-                window.renderCartItems();
-            }
-        };
+            const formattedTotal = 'RM' + total.toFixed(2);
+            document.getElementById('cart-total-amount').textContent = formattedTotal;
+            document.getElementById('final-total').textContent = formattedTotal;
+        }
 
-        window.removeFromCart = function(index) {
-            cart.splice(index, 1);
-            window.saveCart();
-            window.renderCartItems();
-        };
+        function changeQty(idx, delta) {
+            if(cart[idx].qty + delta > 0) { cart[idx].qty += delta; saveCart(); }
+        }
 
-        // --- Checkout Logic ---
-        window.selectOrderType = function(type) {
-            selectedOrderType = type;
-            
-            // Update Toggle UI
+        function removeItem(idx) { cart.splice(idx, 1); saveCart(); }
+
+        // --- Checkout Steps ---
+        function goToStep2() {
+            if(cart.length === 0) return;
+            document.getElementById('step-1').classList.add('hidden-step');
+            document.getElementById('step-2').classList.remove('hidden-step');
+            document.getElementById('step-2').style.display = 'flex'; // Re-trigger flex for animation
+        }
+
+        function backToStep1() {
+            document.getElementById('step-2').classList.add('hidden-step');
+            document.getElementById('step-2').style.display = 'none';
+            document.getElementById('step-1').classList.remove('hidden-step');
+        }
+
+        function setDeliveryType(type) {
+            deliveryType = type;
             document.getElementById('opt-pickup').classList.toggle('active', type === 'pickup');
             document.getElementById('opt-delivery').classList.toggle('active', type === 'delivery');
+            document.getElementById('group-address').classList.toggle('hidden', type !== 'delivery');
+        }
 
-            // Toggle Address Input visibility
-            const addressGroup = document.getElementById("address-group");
-            if(type === 'delivery') {
-                addressGroup.classList.remove('hidden');
-            } else {
-                addressGroup.classList.add('hidden');
-            }
-        };
+        function submitOrder() {
+            if(cart.length === 0) return;
+            const name = document.getElementById('f-name').value.trim();
+            const phone = document.getElementById('f-phone').value.trim();
+            const addr = document.getElementById('f-address').value.trim();
 
-        window.showCheckoutForm = function() {
-            document.getElementById("checkout-form-container").classList.remove('hidden');
-            document.getElementById("btn-checkout-start").classList.add('hidden');
-            document.getElementById("btn-submit-order").classList.remove('hidden');
-        };
+            if(!name || !phone) return alert("Please enter Name and Phone.");
+            if(deliveryType === 'delivery' && !addr) return alert("Please enter Address.");
 
-        window.submitCartOrder = function() {
-            const name = document.getElementById("cart-name").value.trim();
-            const phone = document.getElementById("cart-phone").value.trim();
-            const address = document.getElementById("cart-address").value.trim();
+            const successModal = document.getElementById('success-modal');
+            successModal.style.display = 'flex';
 
-            // Validation
-            if(!name || !phone) {
-                window.showToast("Please enter Name and Phone.");
-                return;
-            }
-
-            if(selectedOrderType === 'delivery' && !address) {
-                window.showToast("Please enter Delivery Address.");
-                return;
-            }
-
-            // Build Message
-            let message = `*NEW ORDER FROM MORY WEBSITE*%0A%0A`;
-            message += `*Order Type:* ${selectedOrderType === 'delivery' ? 'Delivery 🛵' : 'Pick Up 🛒'}%0A`;
-            if(selectedOrderType === 'delivery') {
-                message += `*Address:* ${address}%0A`;
-            }
-            message += `%0A*Order Details:*%0A`;
-            
-            let totalPrice = 0;
-            cart.forEach(item => {
-                const lineTotal = item.price * item.qty;
-                totalPrice += lineTotal;
-                message += `- ${item.title} (x${item.qty}): RM${lineTotal}%0A`;
+            let msg = `*NEW ORDER - MORY*%0A%0A`;
+            msg += `Type: ${deliveryType.toUpperCase()}%0A`;
+            if(deliveryType === 'delivery') msg += `Address: ${addr}%0A`;
+            msg += `%0A*Order Details:*%0A`;
+            let total = 0;
+            cart.forEach(i => {
+                const sub = i.price * i.qty;
+                total += sub;
+                msg += `- ${i.title} (x${i.qty}): RM${sub.toFixed(2)}%0A`;
             });
+            msg += `%0A*Total: RM${total.toFixed(2)}*%0A`;
+            msg += `Customer: ${name} (${phone})`;
 
-            message += `%0A*Total Price: RM${totalPrice}*%0A%0A`;
-            message += `*Customer Info:*%0A`;
-            message += `Name: ${name}%0A`;
-            message += `Phone: ${phone}%0A`;
-            message += `Thank you!`;
+            setTimeout(() => {
+                document.getElementById('wa-link').href = `https://wa.me/${WA_NUMBER}?text=${msg}`;
+                document.getElementById('wa-link').click();
+                successModal.style.display = 'none';
+                closeCart();
+            }, 1500);
+        }
 
-            const url = `https://wa.me/${WA_NUMBER}?text=${message}`;
-            document.getElementById('wa-link').href = url;
-            document.getElementById('wa-link').click();
+        // --- Product Modal ---
+        function openModal(key) {
+            const p = products[key];
+            pmKey = key; pmQty = 1;
+            document.getElementById('pm-qty').textContent = 1;
+            document.getElementById('pm-img').src = p.img;
+            document.getElementById('pm-title').textContent = p.title;
+            document.getElementById('pm-price').textContent = 'RM' + p.price.toFixed(2);
+            document.getElementById('pm-desc').textContent = p.desc;
+            const m = document.getElementById('p-modal');
+            m.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
 
-            // Clear and Close
-            cart = [];
-            window.saveCart();
-            window.closeCart();
-        };
+        function closePM() {
+            document.getElementById('p-modal').classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
 
-        // --- Utilities ---
-        window.filterDrinks = function() {
-            const filter = document.getElementById('search-input').value.toLowerCase();
-            const cards = document.getElementsByClassName('drink-card');
-            let hasResult = false;
+        function changePQty(d) {
+            if(pmQty + d > 0) { pmQty += d; document.getElementById('pm-qty').textContent = pmQty; }
+        }
 
-            for(let i=0; i<cards.length; i++) {
-                const title = cards[i].querySelector("h3").textContent;
-                if(title.toLowerCase().includes(filter)) {
-                    cards[i].style.display = "flex";
-                    hasResult = true;
-                } else {
-                    cards[i].style.display = "none";
-                }
-            }
-            document.getElementById('no-results').style.display = hasResult ? "none" : "block";
-        };
-
-        window.showToast = function(msg) {
-            const toast = document.getElementById("toast");
-            toast.textContent = msg;
-            toast.className = "show";
-            setTimeout(() => toast.className = "", 3000);
-        };
-
-        // --- Initialization ---
-        document.addEventListener('DOMContentLoaded', () => {
-            window.updateCartBadge();
-            
-            // Toggle Mobile Menu
-            const toggle = document.querySelector('.menu-toggle');
-            const nav = document.querySelector('.nav-menu');
-            toggle.onclick = () => nav.classList.toggle('active');
-            
-            // Scroll Spy
-            window.onscroll = function() {
-                const btn = document.getElementById("scrollTopBtn");
-                const header = document.getElementById("main-header");
-                if(window.scrollY > 300) btn.style.display = "block"; else btn.style.display = "none";
-                if(window.scrollY > 20) header.classList.add('scrolled'); else header.classList.remove('scrolled');
-            };
-
-            function topFunction() { window.scrollTo({top:0, behavior:'smooth'}); }
-
-            // Modal Click Close
-            window.onclick = function(e) {
-                if(e.target.classList.contains('modal')) {
-                    document.querySelectorAll('.modal').forEach(m => {
-                        m.classList.remove('show');
-                        document.body.style.overflow = 'auto';
-                    });
-                }
-            };
-        });
+        function addFromPM() {
+            const p = products[pmKey];
+            const ex = cart.find(i => i.key === pmKey);
+            if(ex) ex.qty += pmQty;
+            else cart.push({ key: pmKey, ...p, qty: pmQty });
+            saveCart();
+            closePM();
+        }
     </script>
 </body>
 </html>
